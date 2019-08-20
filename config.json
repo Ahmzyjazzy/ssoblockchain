@@ -1,0 +1,11 @@
+{
+    "secret": "iy98hcbh489n38984y4h498",
+    "mongo": {
+      "development": {
+        "connectionString": "mongodb://localhost:27017/orgdefault"
+      },
+      "production": {
+        "connectionString": ""
+      }
+    }
+  }
