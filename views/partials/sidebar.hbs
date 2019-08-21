@@ -4,11 +4,11 @@
     <img src="asset/img/logo.png" class="img-fluid" alt="">
     </a>
 
-    <div>
-
+    <div class="d-flex justify-content-center">
+        <p>Welcome {{ user.role }}</p>
     </div>
 
-    {{#if user.isAdmin}}
+    {{#if user.isAdmin }}
     <div class="list-group list-group-flush">
         {{!-- dashboard contain summary --}}
         <a href="/dashboard" class="list-group-item list-group-item-action active waves-effect">

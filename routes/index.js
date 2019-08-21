@@ -2,9 +2,9 @@
 
 const checkUserAuth = (req, res, next) => {
     if (req.session.user) {
-        if (req.session.user.usertype == "staff") {
+        if (req.session.user.role == "staff") {
             next();
-        } else if (req.session.user.usertype == "admim") {
+        } else if (req.session.user.role == "admim") {
             next();
         } else {
             next();
@@ -42,6 +42,8 @@ module.exports = function (app, helpers) {
         const { host } = req.headers;        
         const myHost = ['localhost:4000','decentralized.herokuapp.com'];
         const { user } = req.session;
+
+        console.log(user);
 
         if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
             /* blockchain default page */
@@ -113,11 +115,11 @@ module.exports = function (app, helpers) {
     });
 
     
-    // /* fallback to 404 when page not found */
-    // app.get('*', function (req, res) {
-    //     res.render('404', {
-    //         title: '404',
-    //         layout: 'default'
-    //     });
-    // });
+    /* fallback to 404 when page not found */
+    app.get('*', function (req, res) {
+        res.render('404', {
+            title: '404',
+            layout: 'default'
+        });
+    });
 }

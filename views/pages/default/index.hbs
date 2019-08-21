@@ -6,8 +6,8 @@
 
     <p class="h4 mb-4">Sign in</p>
 
-    <!-- Passkey -->
-    <input type="text" id="passkey" class="form-control mb-4" placeholder="Enter Passkey">
+    <!-- passkey -->
+    <input type="text" id="passkey" class="form-control mb-4" placeholder="Enter passkey">
 
     <div class="d-flex justify-content-around">
         <div>
@@ -33,13 +33,13 @@
 
     $('#signin').click(function(e){
         e.preventDefault();
-        const passKey = $('#passkey').val();   
+        const passkey = $('#passkey').val();   
         fetch('/api/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ code:'nimc', passKey })
+            body: JSON.stringify({ code:'nimc', passkey })
         }).then(response => response.json())
         .then((data)=>{
             if(data.status == "success"){

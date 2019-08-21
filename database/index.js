@@ -83,9 +83,11 @@ module.exports = function (app) {
                 } 
                 else {
                     const users = JSON.parse(data); 
-                    const user = users.table.find( obj => obj.phone == passkey || obj.email );
-                    const { email, phone, name, role, id, publickey } = user
+                    const user = users.table.find( obj => obj.phone == passkey || obj.email == passkey );
+                    
+                    console.log('.................', passkey, user);
                     if(user){
+                        const { email, phone, name, role, id, publickey } = user;
                         //set session
                         req.session.user = {
                             email, 
