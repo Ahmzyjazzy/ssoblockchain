@@ -8,9 +8,7 @@
                 <h4 class="mb-2 mb-sm-0 pt-1">
                 <span>Manage Citizen</span>
                 </h4>
-                <section class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-primary">Check User</button>
-                </section>
+                
             </div>
         </div>
         <!-- Heading -->
@@ -103,13 +101,6 @@
                             </td></tr>`;
                         break;
                         case 'reject':
-                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
-                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
-                            <td>
-                                <button class="btn btn-success btn-sm my-0 p waves-effect waves-light edit">Edit</button>
-                                <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light remove">Remove</button>
-                            </td></tr>`;
-                        break;
                         case 'approved':
                             tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
                             <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
@@ -127,96 +118,15 @@
         })        
     }
 
-    $('[name="save"]').click(function(e){
-        e.preventDefault();
-        const surname = $('#surname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
-        const dob = $('#dob').val();
-        const nin = $('#nin').val();
-        const address = $('#address').val();
-        const gender = $("input[type='radio'][name='gender']:checked").val();
-
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
-
-        const code = 'nimc';
-        const mode = 'citizen';
-        const citizen = { surname, firstname, middlename, dob, nin, address, gender};
-        const postObj = { code, citizen, mode };
-
-        fetch('/api/register', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postObj)
-        }).then(response => response.json())
-        .then((data)=>{
-            if(data.status == "success"){
-                $('#clearform').trigger('click');
-                window.location.reload();
-                return alert(data.message);
-            }
-            return alert(data.message);
-        })
-    });
-
-    $('[name="update"]').click(function(e){
-        e.preventDefault();
-        const id = editedID;
-        const surname = $('#surname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
-        const dob = $('#dob').val();
-        const nin = $('#nin').val();
-        const address = $('#address').val();
-        const gender = $("input[type='radio'][name='gender']:checked").val();
-
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
-
-        const code = 'nimc';
-        const mode = 'citizen';
-        const detail = { id, surname, firstname, middlename, dob, nin, address, gender};
-        const postObj = { code, detail, mode };
-
-        console.log(postObj);
-        fetch('/api/updateOne', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(postObj)
-        }).then(response => response.json())
-        .then((data)=>{
-            if(data.status == "success"){
-                $('#clearform').trigger('click');
-                window.location.reload();
-                editedID = null;
-                return alert(data.message);
-            }
-            return alert(data.message);
-        })
-    });
-
-    $('#clearform').click(function(e){
-        e.preventDefault();
-        $('input','textarea').val('');
-        $('[name="update"]').addClass('d-none');
-        $('[name="save"]').removeClass('d-none');
-    });
-
-    $('#generateNIN').click(function(){
-        $('#nin').val(new Date().getTime());
-    });
-
-    $('body').on('click','.remove', function(){
+    $('body').on('click','.approve', function(){
+        //this action calls blockcahin
         const id = $(this).closest('tr').data('id');
         const code = 'nimc';
         const mode = 'citizen';
 
         if(!confirm('Are you sure')) return false;        
 
-        fetch('/api/deleteOne', {
+        fetch('/api/approveOn', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -232,27 +142,6 @@
             }
             return alert(data.message);
         });
-    });
-
-    $('body').on('click','.edit', function(){
-        
-        window.scrollTo(0,0);
-        
-        editedID = $(this).closest('tr').data('id');
-        console.log(citizens, editedID);
-        var { surname, firstname, middlename, dob, nin, address, gender } = citizens.find( c => c.id == editedID)
-
-        $('#surname').val(surname);
-        $('#firstname').val(firstname);
-        $('#middlename').val(middlename);
-        $('#dob').val(dob);
-        $('#nin').val(nin);
-        $('#address').val(address);
-
-        (gender && gender == 'Male') ? $("#male").prop('checked') : $("#female").prop('checked');
-        //toggle
-        $('[name="update"]').removeClass('d-none');
-        $('[name="save"]').addClass('d-none');
     });
 
     drawTable();
