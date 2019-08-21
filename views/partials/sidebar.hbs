@@ -8,6 +8,7 @@
 
     </div>
 
+    {{#if user.isAdmin}}
     <div class="list-group list-group-flush">
         {{!-- dashboard contain summary --}}
         <a href="/dashboard" class="list-group-item list-group-item-action active waves-effect">
@@ -30,5 +31,20 @@
         <a href="/all_nodes" class="list-group-item list-group-item-action waves-effect">
             <i class="fas fa-book mr-3"></i>All Nodes</a>      
     </div>
+    {{else}}
+        <div class="list-group list-group-flush">
+            {{!-- dashboard contain summary --}}
+            <a href="/dashboard" class="list-group-item list-group-item-action active waves-effect">
+                <i class="fas fa-chart-pie mr-3"></i>Dashboard 
+            </a> 
+            {{!-- manage citizen contains records created by the organization --}}
+            <a href="/manage_citizen" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-chart-pie mr-3"></i>Manage Citizen
+            </a>        
+            {{!-- register/verify citizen citizen  --}}
+            <a href="/register" class="list-group-item list-group-item-action waves-effect">
+                <i class="fas fa-table mr-3"></i>Register Citizen</a>    
+        </div>
+    {{/if}}
 
 </div>

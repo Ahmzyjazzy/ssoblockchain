@@ -1,4 +1,19 @@
 'use strict';
+
+const checkUserAuth = (req, res, next) => {
+    if (req.session.user) {
+        if (req.session.user.usertype == "staff") {
+            next();
+        } else if (req.session.user.usertype == "admim") {
+            next();
+        } else {
+            next();
+        }
+    } else {
+        res.redirect("/");
+    }
+}
+
 module.exports = function (app, helpers) {
 
     app.get('/', function (req, res) {
@@ -10,27 +25,29 @@ module.exports = function (app, helpers) {
             /* blockchain default page */
             res.render('pages/default/', {
                 title: 'Decentralized Citizen',
-                layout: 'default',
+                layout: 'auth',
             });
         }else{
             /* sepcific organization front page */
             const path = host.split('-')[0];
             res.render(`pages/${path}`, {
                 title: path.toUpperCase(),
-                layout: 'default',
+                layout: 'auth',
             });
         }
     });
 
-    app.get('/dashboard', function(req, res){
+    app.get('/dashboard',checkUserAuth, function(req, res){
         //check domain to determine org
         const { host } = req.headers;        
         const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+        const { user } = req.session;
 
         if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
             /* blockchain default page */
             res.render('pages/default/dashboard', {
                 title: 'Decentralized Citizen',
+                user,
                 layout: 'default',
             });
         }else{
@@ -43,15 +60,17 @@ module.exports = function (app, helpers) {
         }
     });
 
-    app.get('/staff', function(req, res){
+    app.get('/staff', checkUserAuth, function(req, res){
         //check domain to determine org
         const { host } = req.headers;        
         const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+        const { user } = req.session;
 
         if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
             /* blockchain default page */
             res.render('pages/default/staff', {
                 title: 'Decentralized Citizen',
+                user,
                 layout: 'default',
             });
         }else{
@@ -64,10 +83,11 @@ module.exports = function (app, helpers) {
         }
     });
 
-    app.get('/register', function(req, res){
+    app.get('/register',checkUserAuth, function(req, res){
         //check domain to determine org
         const { host } = req.headers;        
         const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+        const { user } = req.session;
 
         if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
             /* blockchain default page */
@@ -80,17 +100,17 @@ module.exports = function (app, helpers) {
             const path = host.split('-')[0];
             res.render(`pages/${path}/dashboard`, {
                 title: path.toUpperCase(),
+                user,
                 layout: 'default',
             });
         }
     });
 
     app.all('/logout', (req, res) => {
-        delete req.session.user; // any of these works
-        req.session.destroy(); // any of these works
-        res.redirect('/');
+        delete req.session.user;
+        req.session.destroy();
+        res.redirect("/");
     });
-
 
     
     // /* fallback to 404 when page not found */

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
-  <title>{{page_title}}</title>
+  <title>{{title}}</title>
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
   <!-- Bootstrap core CSS -->
@@ -44,10 +44,10 @@
           <!-- Right -->
           <ul class="navbar-nav nav-flex-icons">
             <li class="nav-item pr-2">
-              <p>Welcome Admin</p>
+              <p>Welcome {{ user.name }}</p>
             </li>
             <li class="nav-item">
-              <a href="javascript:void(0);">Logout</a>
+              <a href="/logout">Logout</a>
             </li>
           </ul>
 

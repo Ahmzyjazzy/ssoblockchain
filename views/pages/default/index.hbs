@@ -1,1 +1,53 @@
+<form class="text-center border border-light p-5 col-md-4 col-sm-12" action="#!">
+
+    <a class="logo-wrapper waves-effect" href="/">
+        <img src="asset/img/logo.png" class="img-fluid" alt="">
+    </a>
+
+    <p class="h4 mb-4">Sign in</p>
+
+    <!-- Passkey -->
+    <input type="text" id="passkey" class="form-control mb-4" placeholder="Enter Passkey">
+
+    <div class="d-flex justify-content-around">
+        <div>
+            <!-- Remember me -->
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="defaultLoginFormRemember">
+                <label class="custom-control-label" for="defaultLoginFormRemember">Remember me</label>
+            </div>
+        </div>
+        <div>
+            <!-- Forgot password -->
+            <a href="">Forgot password?</a>
+        </div>
+    </div>
+
+    <!-- Sign in button -->
+    <button class="btn btn-info btn-block my-4" type="submit" id="signin">Sign in</button>
+
+</form>
+{{> footer }}
+
+<script>
+
+    $('#signin').click(function(e){
+        e.preventDefault();
+        const passKey = $('#passkey').val();   
+        fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code:'nimc', passKey })
+        }).then(response => response.json())
+        .then((data)=>{
+            if(data.status == "success"){
+                window.location.href = '/dashboard';
+            }
+            return alert(data.message);
+        }); 
+    })
+
+</script>
 

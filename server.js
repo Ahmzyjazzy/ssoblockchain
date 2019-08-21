@@ -49,8 +49,6 @@ require('./database')(app);
 var routes = require('./routes');
 routes(app, helpers);
 
-
-
 //spin up server 
 app.listen(port, ()=> {
   console.log("server started on PORT http://localhost:" + port);
