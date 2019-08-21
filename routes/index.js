@@ -76,7 +76,7 @@ module.exports = function (app, helpers) {
         }else{
             /* sepcific organization front page */
             const path = host.split('-')[0];
-            res.render(`pages/${path}/dashboard`, {
+            res.render(`pages/${path}/staff`, {
                 title: path.toUpperCase(),
                 layout: 'default',
             });
@@ -99,7 +99,31 @@ module.exports = function (app, helpers) {
         }else{
             /* sepcific organization front page */
             const path = host.split('-')[0];
-            res.render(`pages/${path}/dashboard`, {
+            res.render(`pages/${path}/register`, {
+                title: path.toUpperCase(),
+                user,
+                layout: 'default',
+            });
+        }
+    });
+
+    app.get('/manage_citizen',checkUserAuth, function(req, res){
+        //check domain to determine org
+        const { host } = req.headers;        
+        const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+        const { user } = req.session;
+
+        if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
+            /* blockchain default page */
+            res.render('pages/default/manage', {
+                title: 'Decentralized Citizen',
+                user,
+                layout: 'default',
+            });
+        }else{
+            /* sepcific organization front page */
+            const path = host.split('-')[0];
+            res.render(`pages/${path}/manage`, {
                 title: path.toUpperCase(),
                 user,
                 layout: 'default',

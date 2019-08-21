@@ -124,7 +124,7 @@
                         <a data-toggle="collapse" data-parent="#accordionCont" href="#recordTable" aria-expanded="true"
                             aria-controls="recordTable">
                             <h5 class="mb-0 text-dark">
-                             Manage Citizen Records <i class="fas fa-angle-down rotate-icon"></i>
+                             Pending Citizen Records <i class="fas fa-angle-down rotate-icon"></i>
                             </h5>
                         </a>
                     </div>
@@ -187,8 +187,9 @@
             table.html('');
             citizens = data;
             if(!data.length) return false;  
-            console.log(data);
-            08093570289    
+            console.log(data); 
+            //remove completed record
+            data = data.filter( res => res.status == "pending");
             data.forEach(({ surname, firstname, middlename, nin, dob, address, status, id, gender },index)=>{      
                 const tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
                 <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
@@ -211,7 +212,7 @@
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!surname || !firstname || !middlename || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
@@ -246,7 +247,7 @@
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!surname || !firstname || !middlename || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
