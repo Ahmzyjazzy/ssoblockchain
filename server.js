@@ -15,20 +15,7 @@ const port = process.env.PORT || 4000;
 app.use(cors());
 
 //connect to database
-// const mongoose = require('mongoose');
-// const opts = {
-//   useNewUrlParser: true
-// };
-// console.log("which environment ?", app.get('env'));
-// const url = ( app.get('env') === 'development') ? config.mongo.development.connectionString : config.mongo.production.connectionString;
-// mongoose.set('useCreateIndex', true);
-// mongoose.connect(url, opts, (err, db) => {
-//     if (err) {
-//         console.log("Couldn't connect to database", err);
-//     } else {
-//         console.log(`Connected To Database`);
-//     }
-// });
+
 
 //Register all database schemas
 
@@ -55,9 +42,14 @@ app.engine( 'hbs', exphbs( {
 }));
 app.set( 'view engine', 'hbs' );
 
+// register all route for local json database
+require('./database')(app);
+
 //register all page routes here 
 var routes = require('./routes');
 routes(app, helpers);
+
+
 
 //spin up server 
 app.listen(port, ()=> {

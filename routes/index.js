@@ -64,6 +64,27 @@ module.exports = function (app, helpers) {
         }
     });
 
+    app.get('/register', function(req, res){
+        //check domain to determine org
+        const { host } = req.headers;        
+        const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+
+        if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
+            /* blockchain default page */
+            res.render('pages/default/register', {
+                title: 'Decentralized Citizen',
+                layout: 'default',
+            });
+        }else{
+            /* sepcific organization front page */
+            const path = host.split('-')[0];
+            res.render(`pages/${path}/dashboard`, {
+                title: path.toUpperCase(),
+                layout: 'default',
+            });
+        }
+    });
+
     app.all('/logout', (req, res) => {
         delete req.session.user; // any of these works
         req.session.destroy(); // any of these works
