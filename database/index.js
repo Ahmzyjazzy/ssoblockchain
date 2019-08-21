@@ -206,6 +206,7 @@ module.exports = function (app) {
     /**
      * updateStaff
      * @param String code
+     * @param Object staff
      */
     app.put('/api/staff/', function (req, res) {
         const { code, staff } = req.body;
@@ -228,6 +229,61 @@ module.exports = function (app) {
                     const json = JSON.stringify(staffs);
                     fs.writeFile(url, json, 'utf8', (err,data)=>{
                         return res.json({ status: 'success', message: 'Staff successfully created', data: null });
+                    }); // write it back                 
+                }
+            });
+        }catch(err){
+            return res.json({ status: 'error', message: 'An error occur', data: err });
+        }  
+    });
+
+    /**
+     * deletStaff
+     * @param Integer staff_id
+     */
+    app.delete('/api/staff', function (req, res) {
+        const { staff_id } = req.body;
+        const staffurl = `database/${code}/staff.json`;
+        const userurl = `database/${code}/user.json`;
+
+        try{
+            fs.readFile(staffurl, 'utf8', (err, data)=>{
+                if (err){
+                    console.log(err);
+                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                } 
+                else {
+                    //save staff as user
+                    //add timestamp before saving
+                    const staffs = JSON.parse(data); //now it an object
+
+                    const staffObj = staffs.table.filter((staffObj) => staffObj.id == staff_id);
+                    const { uid } = staffObj; //user_id
+
+                    const updateArr = staffs.table.filter((staffObj) => staffObj.id != staff_id);
+                    staffs.table = updateArr;
+
+                    const json = JSON.stringify(staffs);
+                    fs.writeFile(url, json, 'utf8', (err,data)=>{
+
+                        //delete user too 
+                        fs.readFile(userurl, 'utf8', (err, data)=>{
+                            if (err){
+                                console.log(err);
+                                return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                            } 
+                            else {
+                                const users = JSON.parse(data); //now it an object                       
+                                const newUsers = users.table.filter((user) => user.id != uid);
+                                staffs.table = newUsers;
+
+                                const json = JSON.stringify(staffs);
+                                fs.writeFile(url, json, 'utf8', (err,data)=>{                                    
+                                    return res.json({ status: 'success', message: 'Staff successfully created', data: null });
+                                }); // write it back                 
+                            }
+                        });
+                        
                     }); // write it back                 
                 }
             });

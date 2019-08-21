@@ -95,6 +95,7 @@ module.exports = function (app, helpers) {
             /* blockchain default page */
             res.render('pages/default/register', {
                 title: 'Decentralized Citizen',
+                user,
                 layout: 'default',
             });
         }else{

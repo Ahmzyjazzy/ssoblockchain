@@ -1,0 +1,293 @@
+<!--Main layout--><!--Accordion wrapper-->
+<main class="pt-5 mx-lg-5 accordion md-accordion" id="accordionCont" role="tablist" aria-multiselectable="true">
+    <div class="container-fluid mt-5">
+
+        <!-- Heading -->
+        <div class="card mb-4 wow fadeIn">
+            <div class="card-body d-sm-flex justify-content-between">
+                <h4 class="mb-2 mb-sm-0 pt-1">
+                <span>Register Citizen</span>
+                </h4>
+                <section class="d-flex justify-content-center">
+                    <button type="button" class="btn btn-primary">Check User</button>
+                </section>
+            </div>
+        </div>
+        <!-- Heading -->
+
+        <div class="row wow fadeIn">
+            <div class="col-md-12 mb-4">
+                 <!-- Accordion card -->
+                <div class="card z-depth-0">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="collapseFormHeading">
+                        <a data-toggle="collapse" data-parent="#accordionCont" href="#collapseForm" aria-expanded="true"
+                            aria-controls="collapseForm">
+                            <h5 class="mb-0 text-dark">
+                            NIMC Form <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+                    <!-- Card body -->
+                    <div id="collapseForm" class="collapse show" role="tabpanel" aria-labelledby="collapseFormHeading"
+                    data-parent="#accordionCont">
+                        <div class="card-body">
+                            <form action="" method="post">
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="form-row mb-4">
+                                            <div class="col">
+                                                <!-- Surname -->
+                                                <label class="control-label">Surname</label>
+                                                <input type="text" id="surname" name="surname" class="form-control" placeholder="Surname">
+                                            </div>
+                                            <div class="col">
+                                                <!-- Firstname -->
+                                                <label class="control-label">Firstname</label>
+                                                <input type="text" id="firstname" name="firstname" class="form-control" placeholder="Firstname">
+                                            </div>
+                                            <div class="col">
+                                                <!-- Middlename -->
+                                                <label class="control-label">Middlename</label>
+                                                <input type="text" id="middlename" name="middlename" class="form-control" placeholder="Middlename">
+                                            </div>
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col">
+                                                <!-- DOB -->
+                                                <label class="control-label">Date of Birth</label>
+                                                <input type="date" id="dob" name="dob" class="form-control" placeholder="Date of birth">
+                                            </div>
+                                            <div class="col">
+                                                <!-- Gender -->
+                                                <label class="control-label">Gender</label>
+                                                <div class="mt-2 d-flex">
+                                                    <div class="custom-control custom-radio mr-3">
+                                                        <input type="radio" class="custom-control-input" id="male" name="gender" checked value="male">
+                                                        <label class="custom-control-label" for="male">Male</label>
+                                                    </div>
+                                                    <div class="custom-control custom-radio">
+                                                        <input type="radio" class="custom-control-input" id="female" name="gender" value="female">
+                                                        <label class="custom-control-label" for="female">Female</label>
+                                                    </div>
+                                                </div>
+                                            </div>                     
+                                        </div>
+                                        <div class="form-row mb-4">
+                                            <div class="col">
+                                                <!-- NIN -->
+                                                <label class="control-label">NIN</label>
+                                                <input type="text" id="nin" name="nin" class="form-control" placeholder="NIN">
+                                            </div> 
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <div class="form-row mb-1">
+                                            <div class="col">
+                                                <!-- Address -->
+                                                <div class="form-group">
+                                                    <label for="address">Address</label>
+                                                    <textarea class="form-control rounded-0" id="address" name="address" rows="5" style="resize: none;"></textarea>
+                                                </div>
+                                            </div> 
+                                        </div>                                        
+                                    </div>
+                                </div>
+                                                               
+                                <div class="">
+                                    <button class="btn btn-danger" id="clearform">Clear</button>
+                                    <button class="btn btn-default" type="submit" name="save">Save</button>
+                                    <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
+                                    <button class="btn btn-secondary d-none" type="submit" name="delete">Delete</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>                    
+                </div>
+                 <!--/ Accordion card -->
+            </div>
+        </div>
+
+        <div class="row wow fadeIn">
+            <div class="col-md-12 mb-4">
+                <div class="card">
+                    <!-- Card header -->
+                    <div class="card-header" role="tab" id="recordTableHeading">
+                        <a data-toggle="collapse" data-parent="#accordionCont" href="#recordTable" aria-expanded="true"
+                            aria-controls="recordTable">
+                            <h5 class="mb-0 text-dark">
+                             Manage Staff Records <i class="fas fa-angle-down rotate-icon"></i>
+                            </h5>
+                        </a>
+                    </div>
+                    <!-- Card body -->
+                    <div id="recordTable" class="collapse show" role="tabpanel" aria-labelledby="recordTableHeading"
+                    data-parent="#accordionCont">
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <!-- Table head -->
+                                <thead class="blue-grey lighten-4">
+                                <tr>
+                                    <th>#</th>
+                                    <th>Surname</th>
+                                    <th>Firstname</th>
+                                    <th>Middlename</th>
+                                    <th>Dat of Birth</th>
+                                    <th>NIN</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<!--Main layout-->
+
+{{> footer }}
+
+{{!-- page level js below --}}
+<script>
+    var editedID;
+    var staffs = [];
+
+    function loadStaff(){
+        return new Promise((resolve,reject)=>{
+            fetch('/api/citizen/nimc', {
+                method: 'GET',
+            }).then(response => response.json())
+            .then((res)=>{
+                if(res.status == "success"){
+                    resolve(res.data);
+                }
+                reject([]);
+            });
+        });        
+    }
+
+    const drawTable = () => {  
+        loadStaff().then((data)=>{
+            var table = $('table tbody');   
+            table.html('');
+            staffs = data;
+            if(!data.length) return false;      
+            data.forEach(({ name, phone, email, uid, id, role },index)=>{      
+                const tr = `<tr data-id="${id}" data-uid="${uid}"><td>${index + 1}</td><td>${name}</td><td>${phone}</td><td>${email}</td><td>${role}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm my-0 p waves-effect waves-light edit">Edit</button>
+                    <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light remove">Remove</button>
+                </td></tr>`;
+                table.append(tr);
+            });
+        })        
+    }
+
+    $('[name="save"]').click(function(e){
+        e.preventDefault();
+        const surname = $('#surname').val();
+        const firstname = $('#firstname').val();
+        const middlename = $('#middlename').val();
+        const dob = $('#dob').val();
+        const nin = $('#nin').val();
+        const address = $('#address').val();
+
+        const role = $("input[type='radio'][name='role']:checked").val();
+        if(!surname || !firstname || !middlename || !dob || !nin || !address) return alert('Empty field not allowed');
+
+        const code = 'nimc';
+        const staff = { surname, firstname, middlename, dob, nin, address };
+        const postObj = { code, staff };
+
+        console.log(postObj);
+
+        return;
+        fetch('/api/addStaff', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postObj)
+        }).then(response => response.json())
+        .then((data)=>{
+            if(data.status == "success"){
+                $('#clearform').trigger('click');
+                window.location.reload();
+                return alert(data.message);
+            }
+            return alert(data.message);
+        })
+    });
+
+    $('[name="update"]').click(function(e){
+        e.preventDefault();
+        const name = $('#name').val();
+        const phone = $('#phone').val();
+        const email = $('#email').val();
+        const role = $("input[type='radio'][name='role']:checked").val();
+        if(!name || !phone || !email) return alert('Empty field not allowed');
+
+        const id = editedID;
+
+        const code = 'nimc';
+        const staff = { id, name, phone, email, role };
+        const postObj = { code, staff };
+
+        console.log(postObj);
+        fetch('/api/staff', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(postObj)
+        }).then(response => response.json())
+        .then((data)=>{
+            if(data.status == "success"){
+                $('#clearform').trigger('click');
+                window.location.reload();
+                editedID = null;
+                return alert(data.message);
+            }
+            return alert(data.message);
+        })
+    });
+
+    $('#clearform').click(function(e){
+        e.preventDefault();
+        $('input').val('');
+        $('[name="update"]').addClass('d-none');
+        $('[name="save"]').removeClass('d-none');
+    });
+
+    $('body').on('click','.remove', function(){
+      var index = $(this).closest('tr').data('id');
+      itemList.splice(index,1);
+      drawTable(itemList);
+      $('#clearform').trigger('click');
+    });
+
+    $('body').on('click','.edit', function(){
+        
+        window.scrollTo(0,0);
+        
+        editedID = $(this).closest('tr').data('id');
+        console.log(staffs, editedID);
+        var { name, email, phone, role } = staffs.find( staff => staff.id == editedID)
+        
+        $("#name").val(name);
+        $("#phone").val(phone);
+        $("#email").val(email);  
+        (role == 'admin') ? $("#admin").prop('checked') : $("#staff").prop('checked');
+        //toggle
+        $('[name="update"]').removeClass('d-none');
+        $('[name="save"]').addClass('d-none');
+    });
+
+    {{!-- drawTable(); --}}
+
+</script>

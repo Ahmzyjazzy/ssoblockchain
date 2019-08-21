@@ -221,7 +221,6 @@
     $('body').on('click','.edit', function(){
         
         window.scrollTo(0,0);
-        
         editedID = $(this).closest('tr').data('id');
         console.log(staffs, editedID);
         var { name, email, phone, role } = staffs.find( staff => staff.id == editedID)
