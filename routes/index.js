@@ -43,8 +43,6 @@ module.exports = function (app, helpers) {
         const myHost = ['localhost:4000','decentralized.herokuapp.com'];
         const { user } = req.session;
 
-        console.log(user);
-
         if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
             /* blockchain default page */
             res.render('pages/default/dashboard', {

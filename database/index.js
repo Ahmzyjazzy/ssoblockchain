@@ -84,8 +84,6 @@ module.exports = function (app) {
                 else {
                     const users = JSON.parse(data); 
                     const user = users.table.find( obj => obj.phone == passkey || obj.email == passkey );
-                    
-                    console.log('.................', passkey, user);
                     if(user){
                         const { email, phone, name, role, id, publickey } = user;
                         //set session
@@ -115,10 +113,9 @@ module.exports = function (app) {
      * @param Object staff
      * 
      */
-    app.post('/api/addStaff', function (req, res) {
-        const { code, staff } = req.body;
-        const url = `database/${code}/staff.json`;
-        console.log(code, staff, url);
+    app.post('/api/create', checkUserAuth, function (req, res) {
+        const { code, mode, staff } = req.body;
+        const url = `database/${code}/${mode}.json`;
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
                 if (err){
@@ -152,9 +149,9 @@ module.exports = function (app) {
      * getStaff
      * @param String code
      */
-    app.get('/api/staff/code=:code&id=:id', function (req, res) {
-        const { code, id } = req.params;
-        const url = `database/${code}/staff.json`;
+    app.get('/api/getOne/mode:=:mode&code=:code&id=:id', checkUserAuth, function (req, res) {
+        const { code, mode, id } = req.params;
+        const url = `database/${code}/${mode}.json`;
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
                 if (err){
@@ -180,9 +177,9 @@ module.exports = function (app) {
      * getAllStaff
      * @param String code
      */
-    app.get('/api/staff/:code', function (req, res) {
-        const { code } = req.params;
-        const url = `database/${code}/staff.json`;
+    app.get('/api/getAll/mode=:mode&code=:code', checkUserAuth, function (req, res) {
+        const { code, mode } = req.params;
+        const url = `database/${code}/${mode}.json`;
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
                 if (err){
@@ -191,9 +188,9 @@ module.exports = function (app) {
                 } 
                 else {
                     //save staff as user
-                    const staffs = JSON.parse(data); //now it an object
-                    if(staffs.table.length > 0){
-                        return res.json({ status: 'success', message: 'Record found', data: staffs.table });
+                    const db = JSON.parse(data); //now it an object
+                    if(db.table.length > 0){
+                        return res.json({ status: 'success', message: 'Record found', data: db.table });
                     }
                     return res.json({ status: 'error', message: 'Record not found', data: null });           
                 }
@@ -204,13 +201,13 @@ module.exports = function (app) {
     });
 
     /**
-     * updateStaff
+     * updateOne                                                                                                           
      * @param String code
      * @param Object staff
      */
-    app.put('/api/staff/', function (req, res) {
-        const { code, staff } = req.body;
-        const url = `database/${code}/staff.json`;
+    app.put('/api/updateOne/', checkUserAuth, function (req, res) {
+        const { code, mode, staff } = req.body;
+        const url = `database/${code}/${mode}.json`;
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
                 if (err){
@@ -241,8 +238,8 @@ module.exports = function (app) {
      * deletStaff
      * @param Integer staff_id
      */
-    app.delete('/api/staff', function (req, res) {
-        const { staff_id } = req.body;
+    app.delete('/api/staff', checkUserAuth, function (req, res) {
+        const { code, staff_id } = req.body;
         const staffurl = `database/${code}/staff.json`;
         const userurl = `database/${code}/user.json`;
 
@@ -283,12 +280,46 @@ module.exports = function (app) {
                                 }); // write it back                 
                             }
                         });
-                        
+
                     }); // write it back                 
                 }
             });
         }catch(err){
             return res.json({ status: 'error', message: 'An error occur', data: err });
         }  
+    });
+
+    /**
+     * Register citizen
+     */
+    app.post('/api/register', checkUserAuth, function (req, res) {
+        const { code, mode, citizen } = req.body;
+        const url = `database/${code}/${mode}.json`;
+
+        console.log(citizen);
+        
+        try{
+            fs.readFile(url, 'utf8', (err, data)=>{
+                if (err){
+                    console.log(err);
+                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                } 
+                else {
+                    //add timestamp before saving
+                    const id = new Date().getTime();
+                    const citizens = JSON.parse(data); //now it an object
+                    const status = "pending";
+
+                    citizens.table.push({id, status, ...citizen}); //add some data
+                    const json = JSON.stringify(citizens); //convert it back to json
+
+                    fs.writeFile(url, json, 'utf8', (err,data)=>{
+                        return res.json({ status: 'success', message: 'Citizen successfully created, wait for 24hours of activation.', data: null });
+                    }); // write it back                 
+                }
+            });
+        }catch(err){
+            return res.json({ status: 'error', message: 'An error occur', data: err });
+        }        
     });
 }

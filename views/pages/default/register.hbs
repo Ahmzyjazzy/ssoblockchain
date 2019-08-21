@@ -77,7 +77,15 @@
                                             <div class="col">
                                                 <!-- NIN -->
                                                 <label class="control-label">NIN</label>
-                                                <input type="text" id="nin" name="nin" class="form-control" placeholder="NIN">
+                                                
+
+                                                <div class="input-group mb-3">
+                                                    <input type="text" id="nin" name="nin" class="form-control" placeholder="NIN" 
+                                                        aria-describedby="generateNIN" aria-label="Citizen NIN">
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateNIN">Generate NIN</button>
+                                                    </div>
+                                                </div>
                                             </div> 
                                         </div>
                                     </div>
@@ -87,7 +95,7 @@
                                                 <!-- Address -->
                                                 <div class="form-group">
                                                     <label for="address">Address</label>
-                                                    <textarea class="form-control rounded-0" id="address" name="address" rows="5" style="resize: none;"></textarea>
+                                                    <textarea class="form-control rounded-0" id="address" name="address" rows="9" style="resize: none;"></textarea>
                                                 </div>
                                             </div> 
                                         </div>                                        
@@ -157,9 +165,9 @@
     var editedID;
     var staffs = [];
 
-    function loadStaff(){
+    function loadCitizen(){
         return new Promise((resolve,reject)=>{
-            fetch('/api/citizen/nimc', {
+            fetch('/api/getAll/mode=citizen&code=nimc', {
                 method: 'GET',
             }).then(response => response.json())
             .then((res)=>{
@@ -172,7 +180,7 @@
     }
 
     const drawTable = () => {  
-        loadStaff().then((data)=>{
+        loadCitizen().then((data)=>{
             var table = $('table tbody');   
             table.html('');
             staffs = data;
@@ -201,13 +209,11 @@
         if(!surname || !firstname || !middlename || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
-        const staff = { surname, firstname, middlename, dob, nin, address };
-        const postObj = { code, staff };
+        const mode = 'citizen';
+        const citizen = { surname, firstname, middlename, dob, nin, address };
+        const postObj = { code, citizen, mode };
 
-        console.log(postObj);
-
-        return;
-        fetch('/api/addStaff', {
+        fetch('/api/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -264,6 +270,10 @@
         $('[name="save"]').removeClass('d-none');
     });
 
+    $('#generateNIN').click(function(){
+        $('#nin').val(new Date().getTime());
+    });
+
     $('body').on('click','.remove', function(){
       var index = $(this).closest('tr').data('id');
       itemList.splice(index,1);
@@ -288,6 +298,6 @@
         $('[name="save"]').addClass('d-none');
     });
 
-    {{!-- drawTable(); --}}
+    drawTable();
 
 </script>
