@@ -154,7 +154,7 @@
         const postObj = { code, staff, mode: 'staff' };
 
         console.log(postObj);
-        fetch('/api/create', {
+        fetch('/api/createStaff', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -182,8 +182,8 @@
         const id = editedID;
 
         const code = 'nimc';
-        const staff = { id, name, phone, email, role };
-        const postObj = { code, staff, mode: 'staff' };
+        const detail = { id, name, phone, email, role };
+        const postObj = { code, detail, mode: 'staff' };
 
         console.log(postObj);
         fetch('/api/updateOne', {
@@ -212,10 +212,27 @@
     });
 
     $('body').on('click','.remove', function(){
-      var index = $(this).closest('tr').data('id');
-      itemList.splice(index,1);
-      drawTable(itemList);
-      $('#clearform').trigger('click');
+        const staff_id = $(this).closest('tr').data('id');
+        const code = 'nimc';
+
+        if(!confirm('Are you sure')) return false;        
+
+        fetch('/api/staff', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code, staff_id })
+        }).then(response => response.json())
+        .then((data)=>{
+            if(data.status == "success"){
+                $('#clearform').trigger('click');
+                window.location.reload();
+                editedID = null;
+                return alert(data.message);
+            }
+            return alert(data.message);
+        });
     });
 
     $('body').on('click','.edit', function(){

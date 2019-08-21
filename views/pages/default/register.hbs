@@ -124,7 +124,7 @@
                         <a data-toggle="collapse" data-parent="#accordionCont" href="#recordTable" aria-expanded="true"
                             aria-controls="recordTable">
                             <h5 class="mb-0 text-dark">
-                             Manage Staff Records <i class="fas fa-angle-down rotate-icon"></i>
+                             Manage Citizen Records <i class="fas fa-angle-down rotate-icon"></i>
                             </h5>
                         </a>
                     </div>
@@ -141,7 +141,9 @@
                                     <th>Firstname</th>
                                     <th>Middlename</th>
                                     <th>Dat of Birth</th>
+                                    <th>Gender</th>
                                     <th>NIN</th>
+                                    <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                                 </thead>
@@ -163,7 +165,7 @@
 {{!-- page level js below --}}
 <script>
     var editedID;
-    var staffs = [];
+    var citizens = [];
 
     function loadCitizen(){
         return new Promise((resolve,reject)=>{
@@ -183,10 +185,13 @@
         loadCitizen().then((data)=>{
             var table = $('table tbody');   
             table.html('');
-            staffs = data;
-            if(!data.length) return false;      
-            data.forEach(({ name, phone, email, uid, id, role },index)=>{      
-                const tr = `<tr data-id="${id}" data-uid="${uid}"><td>${index + 1}</td><td>${name}</td><td>${phone}</td><td>${email}</td><td>${role}</td>
+            citizens = data;
+            if(!data.length) return false;  
+            console.log(data);
+            08093570289    
+            data.forEach(({ surname, firstname, middlename, nin, dob, address, status, id, gender },index)=>{      
+                const tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
+                <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
                 <td>
                     <button class="btn btn-primary btn-sm my-0 p waves-effect waves-light edit">Edit</button>
                     <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light remove">Remove</button>
@@ -204,13 +209,13 @@
         const dob = $('#dob').val();
         const nin = $('#nin').val();
         const address = $('#address').val();
+        const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        const role = $("input[type='radio'][name='role']:checked").val();
         if(!surname || !firstname || !middlename || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
-        const citizen = { surname, firstname, middlename, dob, nin, address };
+        const citizen = { surname, firstname, middlename, dob, nin, address, gender};
         const postObj = { code, citizen, mode };
 
         fetch('/api/register', {
@@ -232,20 +237,24 @@
 
     $('[name="update"]').click(function(e){
         e.preventDefault();
-        const name = $('#name').val();
-        const phone = $('#phone').val();
-        const email = $('#email').val();
-        const role = $("input[type='radio'][name='role']:checked").val();
-        if(!name || !phone || !email) return alert('Empty field not allowed');
-
         const id = editedID;
+        const surname = $('#surname').val();
+        const firstname = $('#firstname').val();
+        const middlename = $('#middlename').val();
+        const dob = $('#dob').val();
+        const nin = $('#nin').val();
+        const address = $('#address').val();
+        const gender = $("input[type='radio'][name='gender']:checked").val();
+
+        if(!surname || !firstname || !middlename || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
-        const staff = { id, name, phone, email, role };
-        const postObj = { code, staff };
+        const mode = 'citizen';
+        const detail = { id, surname, firstname, middlename, dob, nin, address, gender};
+        const postObj = { code, detail, mode };
 
         console.log(postObj);
-        fetch('/api/staff', {
+        fetch('/api/updateOne', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -265,7 +274,7 @@
 
     $('#clearform').click(function(e){
         e.preventDefault();
-        $('input').val('');
+        $('input','textarea').val('');
         $('[name="update"]').addClass('d-none');
         $('[name="save"]').removeClass('d-none');
     });
@@ -275,10 +284,28 @@
     });
 
     $('body').on('click','.remove', function(){
-      var index = $(this).closest('tr').data('id');
-      itemList.splice(index,1);
-      drawTable(itemList);
-      $('#clearform').trigger('click');
+        const id = $(this).closest('tr').data('id');
+        const code = 'nimc';
+        const mode = 'citizen';
+
+        if(!confirm('Are you sure')) return false;        
+
+        fetch('/api/deleteOne', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code, mode, id })
+        }).then(response => response.json())
+        .then((data)=>{
+            if(data.status == "success"){
+                $('#clearform').trigger('click');
+                window.location.reload();
+                editedID = null;
+                return alert(data.message);
+            }
+            return alert(data.message);
+        });
     });
 
     $('body').on('click','.edit', function(){
@@ -286,13 +313,17 @@
         window.scrollTo(0,0);
         
         editedID = $(this).closest('tr').data('id');
-        console.log(staffs, editedID);
-        var { name, email, phone, role } = staffs.find( staff => staff.id == editedID)
-        
-        $("#name").val(name);
-        $("#phone").val(phone);
-        $("#email").val(email);  
-        (role == 'admin') ? $("#admin").prop('checked') : $("#staff").prop('checked');
+        console.log(citizens, editedID);
+        var { surname, firstname, middlename, dob, nin, address, gender } = citizens.find( c => c.id == editedID)
+
+        $('#surname').val(surname);
+        $('#firstname').val(firstname);
+        $('#middlename').val(middlename);
+        $('#dob').val(dob);
+        $('#nin').val(nin);
+        $('#address').val(address);
+
+        (gender && gender == 'Male') ? $("#male").prop('checked') : $("#female").prop('checked');
         //toggle
         $('[name="update"]').removeClass('d-none');
         $('[name="save"]').addClass('d-none');

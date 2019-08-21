@@ -113,7 +113,7 @@ module.exports = function (app) {
      * @param Object staff
      * 
      */
-    app.post('/api/create', checkUserAuth, function (req, res) {
+    app.post('/api/createStaff', checkUserAuth, function (req, res) {
         const { code, mode, staff } = req.body;
         const url = `database/${code}/${mode}.json`;
         try{
@@ -146,7 +146,7 @@ module.exports = function (app) {
     });
 
     /**
-     * getStaff
+     * getSOne
      * @param String code
      */
     app.get('/api/getOne/mode:=:mode&code=:code&id=:id', checkUserAuth, function (req, res) {
@@ -174,7 +174,7 @@ module.exports = function (app) {
     });
 
     /**
-     * getAllStaff
+     * getAll
      * @param String code
      */
     app.get('/api/getAll/mode=:mode&code=:code', checkUserAuth, function (req, res) {
@@ -206,8 +206,9 @@ module.exports = function (app) {
      * @param Object staff
      */
     app.put('/api/updateOne/', checkUserAuth, function (req, res) {
-        const { code, mode, staff } = req.body;
+        const { code, mode, detail } = req.body;
         const url = `database/${code}/${mode}.json`;
+        console.log(url, detail);
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
                 if (err){
@@ -215,17 +216,17 @@ module.exports = function (app) {
                     return res.json({ status: 'error', message: 'Some fields are empty', data: err });
                 } 
                 else {
-                    //save staff as user
-                    //add timestamp before saving
-                    const staffs = JSON.parse(data); //now it an object
-                    const { id, name, phone, email, role } = staff; //update staff id
+                    const db = JSON.parse(data); //now it an object
+                    const { id, surname, firstname, middlename, dob, nin, address, gender} = detail; //update id
 
-                    const updateArr = staffs.table.map((staffObj) => staffObj.id == id ? {...staffObj, name, phone, email, role} : staffObj);
-                    staffs.table = updateArr;
+                    console.log(id);
 
-                    const json = JSON.stringify(staffs);
+                    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender} : row);
+                    db.table = updateArr;
+
+                    const json = JSON.stringify(db);
                     fs.writeFile(url, json, 'utf8', (err,data)=>{
-                        return res.json({ status: 'success', message: 'Staff successfully created', data: null });
+                        return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
                     }); // write it back                 
                 }
             });
@@ -235,7 +236,7 @@ module.exports = function (app) {
     });
 
     /**
-     * deletStaff
+     * deleteStaff
      * @param Integer staff_id
      */
     app.delete('/api/staff', checkUserAuth, function (req, res) {
@@ -250,9 +251,7 @@ module.exports = function (app) {
                     return res.json({ status: 'error', message: 'Some fields are empty', data: err });
                 } 
                 else {
-                    //save staff as user
-                    //add timestamp before saving
-                    const staffs = JSON.parse(data); //now it an object
+                    const staffs = JSON.parse(data); 
 
                     const staffObj = staffs.table.filter((staffObj) => staffObj.id == staff_id);
                     const { uid } = staffObj; //user_id
@@ -261,7 +260,7 @@ module.exports = function (app) {
                     staffs.table = updateArr;
 
                     const json = JSON.stringify(staffs);
-                    fs.writeFile(url, json, 'utf8', (err,data)=>{
+                    fs.writeFile(staffurl, json, 'utf8', (err,data)=>{
 
                         //delete user too 
                         fs.readFile(userurl, 'utf8', (err, data)=>{
@@ -275,12 +274,46 @@ module.exports = function (app) {
                                 staffs.table = newUsers;
 
                                 const json = JSON.stringify(staffs);
-                                fs.writeFile(url, json, 'utf8', (err,data)=>{                                    
-                                    return res.json({ status: 'success', message: 'Staff successfully created', data: null });
+                                fs.writeFile(userurl, json, 'utf8', (err,data)=>{                                    
+                                    return res.json({ status: 'success', message: 'Staff successfully deleted', data: null });
                                 }); // write it back                 
                             }
                         });
 
+                    }); // write it back                 
+                }
+            });
+        }catch(err){
+            return res.json({ status: 'error', message: 'An error occur', data: err });
+        }  
+    });
+
+    /**
+     * deleteOne
+     * @param Integer staff_id
+     */
+    app.delete('/api/deleteOne', checkUserAuth, function (req, res) {
+        const { code, mode, id } = req.body;
+        const url = `database/${code}/${mode}.json`;
+
+        try{
+            fs.readFile(url, 'utf8', (err, data)=>{
+                if (err){
+                    console.log(err);
+                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                } 
+                else {
+                    const db = JSON.parse(data); 
+
+                    const rowObj = db.table.filter((o) => o.id == id);
+                    const { uid } = rowObj; //user_id
+
+                    const updateArr = db.table.filter((row) => row.id != id);
+                    db.table = updateArr;
+
+                    const json = JSON.stringify(db);
+                    fs.writeFile(url, json, 'utf8', (err,data)=>{
+                        return res.json({ status: 'success', message: 'Delete operation successful', data: null });
                     }); // write it back                 
                 }
             });
@@ -295,9 +328,6 @@ module.exports = function (app) {
     app.post('/api/register', checkUserAuth, function (req, res) {
         const { code, mode, citizen } = req.body;
         const url = `database/${code}/${mode}.json`;
-
-        console.log(citizen);
-        
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
                 if (err){
