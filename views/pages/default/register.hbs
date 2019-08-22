@@ -22,7 +22,7 @@
         </div>
         <!-- Heading -->
 
-        <div class="row wow fadeIn">
+        <div class="row wow fadeIn main_cont">
             <div class="col-md-12 mb-4">
                  <!-- Accordion card -->
                 <div class="card z-depth-0">
@@ -110,11 +110,12 @@
                                     </div>
                                 </div>
                                                                
-                                <div class="">
+                                <div class="d-flex">
                                     <button class="btn btn-danger" id="clearform">Clear</button>
                                     <button class="btn btn-default" type="submit" name="save">Save</button>
                                     <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
-                                    <button class="btn btn-secondary d-none" type="submit" name="delete">Delete</button>
+                                    <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
+                                        <i class="pr-2 fas fa-eye"></i>View Block History</p>                                   
                                 </div>
                             </form>
                         </div>
@@ -124,7 +125,7 @@
             </div>
         </div>
 
-        <div class="row wow fadeIn">
+        <div class="row wow fadeIn main_cont">
             <div class="col-md-12 mb-4">
                 <div class="card">
                     <!-- Card header -->
@@ -160,6 +161,32 @@
                             </table>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="wow fadeIn d-none history">
+            <ul class="nav nav-tabs md-tabs" id="myTabMD" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link" id="closeHistory" href="javascript:void(0);">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#home-md" role="tab" aria-controls="home-md"
+                    aria-selected="true">Blocks History</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab" aria-controls="profile-md"
+                    aria-selected="false">Userdata History</a>
+                </li>
+            </ul>
+            <div class="tab-content card pt-5" id="myTabContentMD">
+                <div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
+                    Block history
+                </div>
+                <div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
+                    User data history
                 </div>
             </div>
         </div>
@@ -223,7 +250,7 @@
         return fieldData;
     }
 
-    const setFormfield = (obj) => {
+    const setFormfield = (obj) => {        
         //set other form fields except name and gender fields
         for(prop in obj){
             if(prop !== "name") $('#'+ prop).val(obj[prop]);
@@ -397,6 +424,7 @@
         $('input',).val('');
         $('[name="update"]').addClass('d-none');
         $('[name="save"]').removeClass('d-none');
+        $('#view_history').addClass('d-none');
         // set image 
         $('.image_container')
             .css('background-image', '')
@@ -425,6 +453,9 @@
             if(res.status == "success"){
                 //updateStatus
                 userIdentity = res.data;
+                if(!userIdentity) return alert('User does not exist, try again.');
+                console.log(userIdentity);
+                $('#view_history').removeClass('d-none');
                 setFormfield(prepareFormData());
                 return;
             }
@@ -433,6 +464,16 @@
     });
 
     $('#captureFace').click(captureImage);
+
+    $('#view_history').on('click', function(){
+        $('.main_cont').hide('fast');
+        $('.history').removeClass('d-none');
+    });
+
+    $('#closeHistory').on('click', function(){
+        $('.main_cont').show('fast');
+        $('.history').addClass('d-none');
+    });
 
     /* camera capture */
     $('#take_snapshot').on('click', take_snapshot);
