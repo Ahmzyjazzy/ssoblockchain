@@ -27,3 +27,7 @@
 @media (max-width: 1199.98px) {
   .sidebar-fixed {
     display: none; } }
+
+  .small_font {
+    font-size: 0.8em;
+  }

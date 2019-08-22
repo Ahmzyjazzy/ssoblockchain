@@ -100,6 +100,14 @@
                                 <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light reject">Reject</button>
                             </td></tr>`;
                         break;
+                        case 'pending block':
+                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
+                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+                            <td>
+                                <button class="btn btn-success btn-sm my-0 p waves-effect waves-light approve_block">Approve block</button>
+                                <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light reject">Reject</button>
+                            </td></tr>`;
+                        break;
                         case 'rejected':
                             tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
                             <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
@@ -129,8 +137,6 @@
         const detail = { ...user, status };
         const postObj = { code, detail, mode };
 
-        console.log(postObj);
-
         fetch('/api/updateOne', {
             method: 'PUT',
             headers: {
@@ -151,8 +157,6 @@
     $('body').on('click','.approve', function(){
         //this action calls blockcahin
         const id = $(this).closest('tr').data('id');
-        const code = 'nimc';
-        const mode = 'citizen';   
         const { org } = $('#auth_user').data(); 
 
         if(!confirm('Are you sure, you want to approve this record?')) return false;  
@@ -165,6 +169,34 @@
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({ orgPublickey: org, user_info: JSON.stringify(user_info) })
+        }).then(response => response.json())
+        .then((data)=>{
+            if(data.status == "success"){
+                //updateStatus
+                updateCitizenStatus(user_info,"approved");
+            }
+            return alert(data.message);
+        });
+    });
+
+    $('body').on('click','.approve_block', function(){
+        //this action calls blockcahin
+        const id = $(this).closest('tr').data('id');
+        const { org } = $('#auth_user').data(); 
+
+        if(!confirm('Are you sure, you want to approve this record?')) return false;  
+        const user_info = citizens.find( c => c.id == id);
+        user_info.status = "approved";
+
+        const userPublickey = user_info.publickey;
+        const txnRefid = user_info.userid;
+        
+        fetch('http://localhost:8900/api/save_new_fields', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ orgPublickey: org, userPublickey, txnRefid, user_info: JSON.stringify(user_info) })
         }).then(response => response.json())
         .then((data)=>{
             if(data.status == "success"){

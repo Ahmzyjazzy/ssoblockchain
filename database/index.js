@@ -68,6 +68,47 @@ const checkUserAuth = (req, res, next) => {
     }
 }
 
+const saveCitizen = (url,data,citizen,res)=> {
+    //add timestamp before saving
+    const id = new Date().getTime();
+    const citizens = JSON.parse(data); //now it an object
+    const status = "pending";
+
+    citizens.table.push({id, status, ...citizen}); //add some data
+    const json = JSON.stringify(citizens); //convert it back to json
+
+    console.log('3.save new citizen =>', id);
+
+    fs.writeFile(url, json, 'utf8', (err,data)=>{
+        return res.json({ status: 'success', message: 'Citizen successfully created, wait for 24hours of activation.', data: null });
+    }); // write it back  
+}
+
+const updateCitizen = (url,data, detail,res) => {
+    const db = JSON.parse(data); //now it an object
+    const { id, surname, firstname, middlename, dob, nin, address, gender, publickey, userid } = detail; //update id
+
+    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, publickey, userid, status: "pending block" } : row);
+    db.table = updateArr;
+
+    const json = JSON.stringify(db);
+    fs.writeFile(url, json, 'utf8', (err,data)=>{
+        return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
+    }); // write it back   
+}
+
+const checkCitizen = (userUrl,id) => {
+    return new Promise((resolve,reject)=>{
+        fs.readFile(userUrl, 'utf8', (err, data)=>{
+            if (err) reject(false);
+            //check if the user has id, does it exist in my local db? "pending block"
+            const users = JSON.parse(data);
+            const exist = users.table.find(obj => obj.id == id && obj.status != "rejected");
+            resolve(exist); 
+        });
+    });
+}
+
 module.exports = function (app) {
 
     /** login
@@ -334,22 +375,22 @@ module.exports = function (app) {
         const url = `database/${code}/${mode}.json`;
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
+                console.log('data=>', data);
                 if (err){
                     console.log(err);
                     return res.json({ status: 'error', message: 'Some fields are empty', data: err });
                 } 
                 else {
-                    //add timestamp before saving
-                    const id = new Date().getTime();
-                    const citizens = JSON.parse(data); //now it an object
-                    const status = "pending";
-
-                    citizens.table.push({id, status, ...citizen}); //add some data
-                    const json = JSON.stringify(citizens); //convert it back to json
-
-                    fs.writeFile(url, json, 'utf8', (err,data)=>{
-                        return res.json({ status: 'success', message: 'Citizen successfully created, wait for 24hours of activation.', data: null });
-                    }); // write it back                 
+                    //check if the user has id, does it exist in my local db? "pending block"
+                    if(Object.keys(citizen).includes('id')){
+                        //check if exist locally
+                        const { id } = citizen;
+                        checkCitizen(url,id).then((exist)=>{
+                            !exist ? saveCitizen(url,data,citizen,res) : updateCitizen(url,data,citizen,res);
+                        }).catch(e => res.json({ status: 'error', message: 'An error occur', data: e }));
+                    }else{
+                        saveCitizen(url,data,citizen,res);
+                    }               
                 }
             });
         }catch(err){

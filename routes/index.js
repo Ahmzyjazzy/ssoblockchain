@@ -28,7 +28,7 @@ module.exports = function (app, helpers) {
                 layout: 'auth',
             });
         }else{
-            /* sepcific organization front page */
+            /* specific organization front page */
             const path = host.split('-')[0];
             res.render(`pages/${path}`, {
                 title: path.toUpperCase(),
@@ -51,7 +51,7 @@ module.exports = function (app, helpers) {
                 layout: 'default',
             });
         }else{
-            /* sepcific organization front page */
+            /* specific organization front page */
             const path = host.split('-')[0];
             res.render(`pages/${path}/dashboard`, {
                 title: path.toUpperCase(),
@@ -74,7 +74,7 @@ module.exports = function (app, helpers) {
                 layout: 'default',
             });
         }else{
-            /* sepcific organization front page */
+            /* specific organization front page */
             const path = host.split('-')[0];
             res.render(`pages/${path}/staff`, {
                 title: path.toUpperCase(),
@@ -97,7 +97,7 @@ module.exports = function (app, helpers) {
                 layout: 'default',
             });
         }else{
-            /* sepcific organization front page */
+            /* specific organization front page */
             const path = host.split('-')[0];
             res.render(`pages/${path}/register`, {
                 title: path.toUpperCase(),
@@ -121,9 +121,57 @@ module.exports = function (app, helpers) {
                 layout: 'default',
             });
         }else{
-            /* sepcific organization front page */
+            /* specific organization front page */
             const path = host.split('-')[0];
             res.render(`pages/${path}/manage`, {
+                title: path.toUpperCase(),
+                user,
+                layout: 'default',
+            });
+        }
+    });
+
+    app.get('/my_nodes',checkUserAuth, function(req, res){
+        //check domain to determine org
+        const { host } = req.headers;        
+        const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+        const { user } = req.session;
+
+        if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
+            /* blockchain default page */
+            res.render('pages/default/my_nodes', {
+                title: 'Decentralized Citizen',
+                user,
+                layout: 'default',
+            });
+        }else{
+            /* specific organization front page */
+            const path = host.split('-')[0];
+            res.render(`pages/${path}/my_nodes`, {
+                title: path.toUpperCase(),
+                user,
+                layout: 'default',
+            });
+        }
+    });
+
+    app.get('/all_nodes',checkUserAuth, function(req, res){
+        //check domain to determine org
+        const { host } = req.headers;        
+        const myHost = ['localhost:4000','decentralized.herokuapp.com'];
+        const { user } = req.session;
+
+        if(myHost.join(',').toLowerCase().includes(host.toLowerCase())){
+            /* blockchain default page */
+            res.render('pages/default/all_nodes', {
+                title: 'Decentralized Citizen',
+                user,
+                layout: 'default',
+            });
+        }else{
+            /* specific organization front page */
+            const path = host.split('-')[0];
+            res.render(`pages/${path}/all_nodes`, {
                 title: path.toUpperCase(),
                 user,
                 layout: 'default',

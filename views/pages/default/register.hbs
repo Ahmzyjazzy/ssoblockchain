@@ -114,6 +114,7 @@
                                     <button class="btn btn-danger" id="clearform">Clear</button>
                                     <button class="btn btn-default" type="submit" name="save">Save</button>
                                     <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
+                                    <button class="btn btn-secondary d-none" type="submit" name="modify">Modify</button>
                                     <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
                                         <i class="pr-2 fas fa-eye"></i>View Block History</p>                                   
                                 </div>
@@ -176,17 +177,12 @@
                     <a class="nav-link active" id="home-tab-md" data-toggle="tab" href="#home-md" role="tab" aria-controls="home-md"
                     aria-selected="true">Blocks History</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" id="profile-tab-md" data-toggle="tab" href="#profile-md" role="tab" aria-controls="profile-md"
-                    aria-selected="false">Userdata History</a>
-                </li>
             </ul>
             <div class="tab-content card pt-5" id="myTabContentMD">
                 <div class="tab-pane fade show active" id="home-md" role="tabpanel" aria-labelledby="home-tab-md">
-                    Block history
-                </div>
-                <div class="tab-pane fade" id="profile-md" role="tabpanel" aria-labelledby="profile-tab-md">
-                    User data history
+                    <div id="blockContainer" class="d-flex justify-content-start flex-wrap">
+                        {{> blockinfo }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,8 +199,9 @@
 <script>
     var editedID;
     var citizens = [];
-    var userIdentity = {};
+    var myblocks = {};
     var fileUrlstring = null;
+    var blockTmp = $('.block')[0].outerHTML;
 
     const loadCitizen = () => {
         return new Promise((resolve,reject)=>{
@@ -244,13 +241,16 @@
     const prepareFormData = () => {
         let fieldData = {};
         //combine all ipfsData as one
-        for(obj of userIdentity.ipfsData){
+        for(obj of myblocks.ipfsData){
           $.extend(fieldData, obj);
         }
         return fieldData;
     }
 
-    const setFormfield = (obj) => {        
+    const setFormfield = (obj) => {      
+        //set id of the 
+        editedID = obj.id;
+
         //set other form fields except name and gender fields
         for(prop in obj){
             if(prop !== "name") $('#'+ prop).val(obj[prop]);
@@ -288,7 +288,6 @@
                 .removeClass('has--image');
             $('.user-avatar').css('display','block');
         }
-        
     }
 
     const captureImage = () => {
@@ -337,6 +336,33 @@
                 return alert(data.message);
             }
             return alert(data.message);
+        });
+    }
+
+    const formatTimestamp = (t) => {
+        let d = new Date(t);
+        let format = `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}:${d.getSeconds()}`;
+        return format;
+    }
+
+    const drawBlocks = () => {
+        //get blocks, ipfsData, ipfsHash     
+        const { blocks, ipfsData, ipfsHash } = myblocks;
+        const $cont = $('#blockContainer');
+        $cont.html("");
+        blocks.forEach((block)=>{
+            let $newBlock = $(blockTmp);
+            let $infoCont = $newBlock.find('.info-content');
+            let itemStr = $infoCont.find('.block-item')[0].outerHTML;
+            $infoCont.html('');
+            for(prop in block){
+                let $item = $(itemStr);
+                $item.find('.label').html(prop);
+                (prop != 'timestamp')? ((prop == 'orgPublickey' || prop == 'previousHash' || prop == 'hash') ? 
+                    $item.find('.value').html(block[prop].substr(0,30) + '...') : $item.find('.value').html(block[prop])) : $item.find('.value').html(formatTimestamp(block[prop]));
+                $infoCont.append($item);
+            }
+            $cont.append($newBlock);
         });
     }
 
@@ -397,7 +423,8 @@
 
         const code = 'nimc';
         const mode = 'citizen';
-        const detail = { id, surname, firstname, middlename, dob, nin, address, gender};
+        const { status } = citizens.find(obj=>obj.id == editedID);
+        const detail = { id, surname, firstname, middlename, dob, nin, address, gender, status};
         const postObj = { code, detail, mode };
 
         console.log(postObj);
@@ -419,12 +446,37 @@
         })
     });
 
+    $('[name="modify"]').click(function(e){
+        e.preventDefault();
+        const id = editedID;
+        const surname = $('#surname').val();
+        const firstname = $('#firstname').val();
+        const middlename = $('#middlename').val();
+        const dob = $('#dob').val();
+        const nin = $('#nin').val();
+        const address = $('#address').val();
+        const gender = $("input[type='radio'][name='gender']:checked").val();
+
+        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+
+        const { publickey, userid } = myblocks.extras;
+
+        const code = 'nimc';
+        const mode = 'citizen';
+        const citizen = { id, surname, firstname, middlename, dob, nin, address, gender, publickey, userid };
+        const postObj = { code, citizen, mode };
+
+        console.log('modify record: => ', postObj);
+        saveUserData(postObj);
+    });
+
     $('#clearform').click(function(e){
         e.preventDefault();
         $('input',).val('');
         $('[name="update"]').addClass('d-none');
         $('[name="save"]').removeClass('d-none');
         $('#view_history').addClass('d-none');
+        $('[name="modify"]').addClass('d-none');
         // set image 
         $('.image_container')
             .css('background-image', '')
@@ -452,10 +504,13 @@
         .then((res)=>{
             if(res.status == "success"){
                 //updateStatus
-                userIdentity = res.data;
-                if(!userIdentity) return alert('User does not exist, try again.');
-                console.log(userIdentity);
+                myblocks = res.data;
+                if(!myblocks) return alert('User does not exist, try again.');
+                console.log(myblocks);
                 $('#view_history').removeClass('d-none');
+                //set mpodify button here
+                $('[name="save"]').addClass('d-none');
+                $('[name="modify"]').removeClass('d-none');
                 setFormfield(prepareFormData());
                 return;
             }
@@ -468,6 +523,8 @@
     $('#view_history').on('click', function(){
         $('.main_cont').hide('fast');
         $('.history').removeClass('d-none');
+        //display block history
+        drawBlocks();
     });
 
     $('#closeHistory').on('click', function(){
