@@ -2,6 +2,10 @@
 const fs = require('fs');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
+const organization = require('../organization');
+
+const multer = require('multer');
+const upload = multer(); // for parsing multipart/form-data
 
 const saveUser = (code,obj) => {
     const url = `database/${code}/user.json`;
@@ -85,7 +89,8 @@ module.exports = function (app) {
                     const users = JSON.parse(data); 
                     const user = users.table.find( obj => obj.phone == passkey || obj.email == passkey );
                     if(user){
-                        const { email, phone, name, role, id, publickey } = user;
+                        const { email, phone, name, role, id } = user;
+                        const { publickey } = organization.find(org => org.code == code);
                         //set session
                         req.session.user = {
                             email, 
@@ -93,7 +98,7 @@ module.exports = function (app) {
                             name, 
                             role, 
                             id, 
-                            publickey,
+                            orgPublickey: publickey,
                             isAdmin: role == 'admin' ? true: false
                         }; 
                         req.session.user.expires = new Date().getTime() + 3 * 24 * 3600 * 1000;
@@ -217,11 +222,10 @@ module.exports = function (app) {
                 } 
                 else {
                     const db = JSON.parse(data); //now it an object
-                    const { id, surname, firstname, middlename, dob, nin, address, gender} = detail; //update id
-
+                    const { id, surname, firstname, middlename, dob, nin, address, gender, status} = detail; //update id
                     console.log(id);
 
-                    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender} : row);
+                    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, status} : row);
                     db.table = updateArr;
 
                     const json = JSON.stringify(db);
@@ -351,5 +355,17 @@ module.exports = function (app) {
         }catch(err){
             return res.json({ status: 'error', message: 'An error occur', data: err });
         }        
+    });
+
+    /* upload logic start here */
+    app.post('/api/upload_passport', upload.array(), function(req, res) {
+        const base64Data = req.body.fileUrlstring.replace(/^data:image\/jpeg;base64,/, "");
+        const fileurl = Date.now() + '.png';
+        fs.writeFile(`public/uploads/${fileurl}`, base64Data, 'base64', function(err) {
+            if (err) {
+                return res.json({ status: 'error', message: 'Upload failed', data: err });
+            }
+            return res.json({ status: 'success', message: 'Upload successful', data: {fileurl} });
+        });
     });
 }

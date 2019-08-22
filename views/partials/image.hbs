@@ -1,0 +1,36 @@
+<div class="col-md-12">
+     <style>
+         .image_container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 200px;
+            background: #cccccc42;
+            margin-top: 16px;
+         }
+
+         .image_container:hover  {
+            border: 1px solid #ccc;
+         }
+
+         .image_container.has--image {
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+         }
+        
+         .image_container img {
+            cursor: pointer;
+         }
+
+        .image_container.has--image img.is_hover {
+            display: block;
+            border: 2px solid #fff;
+            border-radius: 50%;
+         }
+
+     </style>
+     <div class="image_container">
+       <img src="asset/img/camera.png" alt="user avatar" class="user-avatar" style="max-width:100%;" id="captureFace" data-toggle="modal" data-target="#cameraModal"/>
+     </div>
+   </div>
