@@ -6,6 +6,7 @@
         $('.sidebar-fixed a').removeClass('active')
         $(`.sidebar-fixed a[href="${path}"]`).addClass('active');
     }
+    
 
     activeMenu();
 

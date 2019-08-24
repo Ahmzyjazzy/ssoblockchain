@@ -350,11 +350,13 @@
         const { blocks, ipfsData, ipfsHash } = myblocks;
         const $cont = $('#blockContainer');
         $cont.html("");
-        blocks.forEach((block)=>{
+        blocks.forEach((block,index)=>{
             let $newBlock = $(blockTmp);
             let $infoCont = $newBlock.find('.info-content');
             let itemStr = $infoCont.find('.block-item')[0].outerHTML;
+            let $dataView = $newBlock.find('.data-view');
             $infoCont.html('');
+
             for(prop in block){
                 let $item = $(itemStr);
                 $item.find('.label').html(prop);
@@ -362,7 +364,30 @@
                     $item.find('.value').html(block[prop].substr(0,30) + '...') : $item.find('.value').html(block[prop])) : $item.find('.value').html(formatTimestamp(block[prop]));
                 $infoCont.append($item);
             }
+
+            //build user data info on tooltip
+            const userData = ipfsData[index];
+            let htmlStr = '<ul class="list-group list-group-flus col-12 p-0 m-0">';
+            for(prop in userData){
+                if(prop == "publickey") break;
+                const value = userData[prop];
+                const tmp = `<li class="list-group-item block-item bg-dark d-flex flex-row flex-wrap justify-content-start align-items-center">
+                    <span class="label font-weight-bold text-black small_font">${prop}</span>:<span class="value small_font">${value}</span></li>`;
+                htmlStr += tmp;
+            }    
+
+            htmlStr += '</ul>';
+            $dataView.attr('title',htmlStr);
             $cont.append($newBlock);
+        });
+        
+        //init tooltip
+        $('[data-toggle="tooltip"]').tooltip({
+            template: `<div class="tooltip" role="tooltip">
+                        <div class="arrow"></div>
+                        <div class="tooltip-inner">
+                        </div>
+                    </div>`
         });
     }
 
@@ -511,6 +536,8 @@
                 //set mpodify button here
                 $('[name="save"]').addClass('d-none');
                 $('[name="modify"]').removeClass('d-none');
+                $('.main_cont').show('fast');
+                $('.history').addClass('d-none');
                 setFormfield(prepareFormData());
                 return;
             }

@@ -63,7 +63,9 @@
                 $infoCont.append($item);
             }
             $cont.append($newBlock);
-        });
+        });        
+        //init tooltip
+        $('[data-toggle="tooltip"]').tooltip();
     }
 
     const getMyBlocks = () => {
