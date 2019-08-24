@@ -23,7 +23,7 @@ const saveUser = (code,obj) => {
                 const publickey = key.getPublic('hex');
                 const { phone, email, role } = obj;
                 users.table.push({id, privatekey, publickey, phone, email, role }); 
-                const json = JSON.stringify(users);
+                const json = JSON.stringify(users,null,2);
 
                 fs.writeFile(url, json, 'utf8', (e,data)=>{
                     //get last inserted id
@@ -75,7 +75,7 @@ const saveCitizen = (url,data,citizen,res)=> {
     const status = "pending";
 
     citizens.table.push({id, status, ...citizen}); //add some data
-    const json = JSON.stringify(citizens); //convert it back to json
+    const json = JSON.stringify(citizens,null,2); //convert it back to json
 
     console.log('3.save new citizen =>', id);
 
@@ -91,7 +91,7 @@ const updateCitizen = (url,data, detail,res) => {
     const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, publickey, userid, status: "pending block" } : row);
     db.table = updateArr;
 
-    const json = JSON.stringify(db);
+    const json = JSON.stringify(db,null,2);
     fs.writeFile(url, json, 'utf8', (err,data)=>{
         return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
     }); // write it back   
@@ -176,7 +176,7 @@ module.exports = function (app) {
                         const staffs = JSON.parse(data); //now it an object
 
                         staffs.table.push({id: sid, uid: id, ...staff}); //add some data
-                        const json = JSON.stringify(staffs); //convert it back to json
+                        const json = JSON.stringify(staffs,null,2); //convert it back to json
 
                         fs.writeFile(url, json, 'utf8', (err,data)=>{
                             return res.json({ status: 'success', message: 'Staff successfully created', data: null });
@@ -269,7 +269,7 @@ module.exports = function (app) {
                     const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, status} : row);
                     db.table = updateArr;
 
-                    const json = JSON.stringify(db);
+                    const json = JSON.stringify(db,null,2);
                     fs.writeFile(url, json, 'utf8', (err,data)=>{
                         return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
                     }); // write it back                 
@@ -304,7 +304,7 @@ module.exports = function (app) {
                     const updateArr = staffs.table.filter((staffObj) => staffObj.id != staff_id);
                     staffs.table = updateArr;
 
-                    const json = JSON.stringify(staffs);
+                    const json = JSON.stringify(staffs,null,2);
                     fs.writeFile(staffurl, json, 'utf8', (err,data)=>{
 
                         //delete user too 
@@ -318,7 +318,7 @@ module.exports = function (app) {
                                 const newUsers = users.table.filter((user) => user.id != uid);
                                 staffs.table = newUsers;
 
-                                const json = JSON.stringify(staffs);
+                                const json = JSON.stringify(staffs,null,2);
                                 fs.writeFile(userurl, json, 'utf8', (err,data)=>{                                    
                                     return res.json({ status: 'success', message: 'Staff successfully deleted', data: null });
                                 }); // write it back                 
@@ -356,7 +356,7 @@ module.exports = function (app) {
                     const updateArr = db.table.filter((row) => row.id != id);
                     db.table = updateArr;
 
-                    const json = JSON.stringify(db);
+                    const json = JSON.stringify(db,null,2);
                     fs.writeFile(url, json, 'utf8', (err,data)=>{
                         return res.json({ status: 'success', message: 'Delete operation successful', data: null });
                     }); // write it back                 
