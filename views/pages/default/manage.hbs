@@ -137,7 +137,7 @@
         const detail = { ...user, status };
         const postObj = { code, detail, mode };
 
-        fetch('/api/updateOne', {
+        fetch('/api/updateCitizen', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -170,12 +170,14 @@
             },
             body: JSON.stringify({ orgPublickey: org, user_info: JSON.stringify(user_info) })
         }).then(response => response.json())
-        .then((data)=>{
-            if(data.status == "success"){
-                //updateStatus
-                updateCitizenStatus(user_info,"approved");
+        .then((res)=>{
+            if(res.status == "success"){
+                //modify and add publickey & userid
+                console.log('blockchain =>', res.data)
+                const { publickey, userid } = res.data;
+                updateCitizenStatus({...user_info, publickey, userid },"approved");
             }
-            return alert(data.message);
+            return alert(res.message);
         });
     });
 

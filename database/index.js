@@ -192,6 +192,40 @@ module.exports = function (app) {
     });
 
     /**
+     * updateStaff                                                                                                           
+     * @param String code
+     * @param Object staff
+     */
+    app.put('/api/updateStaff/', checkUserAuth, function (req, res) {
+        const { code, mode, detail } = req.body;
+        const url = `database/${code}/${mode}.json`;
+        console.log(url, detail);
+        try{
+            fs.readFile(url, 'utf8', (err, data)=>{
+                if (err){
+                    console.log(err);
+                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                } 
+                else {
+                    const db = JSON.parse(data); //now it an object
+                    const { id, name, email, phone } = detail; //update id
+                    console.log(id);
+
+                    const updateArr = db.table.map((row) => row.id == id ? {...row, name, email, phone } : row);
+                    db.table = updateArr;
+
+                    const json = JSON.stringify(db,null,2);
+                    fs.writeFile(url, json, 'utf8', (err,data)=>{
+                        return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
+                    }); // write it back                 
+                }
+            });
+        }catch(err){
+            return res.json({ status: 'error', message: 'An error occur', data: err });
+        }  
+    });
+
+    /**
      * getSOne
      * @param String code
      */
@@ -239,40 +273,6 @@ module.exports = function (app) {
                         return res.json({ status: 'success', message: 'Record found', data: db.table });
                     }
                     return res.json({ status: 'error', message: 'Record not found', data: null });           
-                }
-            });
-        }catch(err){
-            return res.json({ status: 'error', message: 'An error occur', data: err });
-        }  
-    });
-
-    /**
-     * updateOne                                                                                                           
-     * @param String code
-     * @param Object staff
-     */
-    app.put('/api/updateOne/', checkUserAuth, function (req, res) {
-        const { code, mode, detail } = req.body;
-        const url = `database/${code}/${mode}.json`;
-        console.log(url, detail);
-        try{
-            fs.readFile(url, 'utf8', (err, data)=>{
-                if (err){
-                    console.log(err);
-                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
-                } 
-                else {
-                    const db = JSON.parse(data); //now it an object
-                    const { id, surname, firstname, middlename, dob, nin, address, gender, status} = detail; //update id
-                    console.log(id);
-
-                    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, status} : row);
-                    db.table = updateArr;
-
-                    const json = JSON.stringify(db,null,2);
-                    fs.writeFile(url, json, 'utf8', (err,data)=>{
-                        return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
-                    }); // write it back                 
                 }
             });
         }catch(err){
@@ -396,6 +396,40 @@ module.exports = function (app) {
         }catch(err){
             return res.json({ status: 'error', message: 'An error occur', data: err });
         }        
+    });
+    /**
+     * updateCitizen                                                                                                           
+     * @param String code
+     * @param Object staff
+     */
+    
+    app.put('/api/updateCitizen/', checkUserAuth, function (req, res) {
+        const { code, mode, detail } = req.body;
+        const url = `database/${code}/${mode}.json`;
+        console.log(url, detail);
+        try{
+            fs.readFile(url, 'utf8', (err, data)=>{
+                if (err){
+                    console.log(err);
+                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                } 
+                else {
+                    const db = JSON.parse(data); //now it an object
+                    const { id, surname, firstname, middlename, dob, nin, address, gender, status, publickey, userid} = detail; //update id
+                    console.log(id);
+
+                    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, status, publickey, userid} : row);
+                    db.table = updateArr;
+
+                    const json = JSON.stringify(db,null,2);
+                    fs.writeFile(url, json, 'utf8', (err,data)=>{
+                        return res.json({ status: 'success', message: 'Staff successfully updated', data: null });
+                    }); // write it back                 
+                }
+            });
+        }catch(err){
+            return res.json({ status: 'error', message: 'An error occur', data: err });
+        }  
     });
 
     /* upload logic start here */
