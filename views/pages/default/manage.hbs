@@ -66,7 +66,7 @@
 
     function loadCitizen(){
         return new Promise((resolve,reject)=>{
-            fetch('/api/getAll/mode=citizen&code=nimc', {
+            fetch('/api/getAll/mode=citizen&code=nis', {
                 method: 'GET',
             }).then(response => response.json())
             .then((res)=>{
@@ -132,7 +132,7 @@
 
     const updateCitizenStatus =(user, status)=> {
         
-        const code = 'nimc';
+        const code = 'nis';
         const mode = 'citizen';
         const detail = { ...user, status };
         const postObj = { code, detail, mode };
@@ -212,7 +212,7 @@
     $('body').on('click','.reject', function(){
         //this action calls blockcahin
         const id = $(this).closest('tr').data('id');
-        const code = 'nimc';
+        const code = 'nis';
         const mode = 'citizen';   
         const { org } = $('#auth_user').data(); 
 

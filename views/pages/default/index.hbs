@@ -1,7 +1,7 @@
 <form class="text-center border border-light p-5 col-md-4 col-sm-12" action="#!">
 
     <a class="logo-wrapper waves-effect" href="/">
-        <img src="asset/img/logo.png" class="img-fluid" alt="">
+        <img src="asset/img/nis.png" class="img-fluid" alt="">
     </a>
 
     <p class="h4 mb-4">Sign in</p>
@@ -39,7 +39,7 @@
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ code:'nimc', passkey })
+            body: JSON.stringify({ code:'nis', passkey })
         }).then(response => response.json())
         .then((data)=>{
             if(data.status == "success"){

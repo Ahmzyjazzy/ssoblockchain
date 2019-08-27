@@ -31,7 +31,7 @@
                         <a data-toggle="collapse" data-parent="#accordionCont" href="#collapseForm" aria-expanded="true"
                             aria-controls="collapseForm">
                             <h5 class="mb-0 text-dark">
-                            NIMC Form <i class="fas fa-angle-down rotate-icon"></i>
+                            NIS Form <i class="fas fa-angle-down rotate-icon"></i>
                             </h5>
                         </a>
                     </div>
@@ -41,22 +41,19 @@
                         <div class="card-body">
                             <form action="" method="post">
                                 <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-row mb-1">
+                                            <div class="col">
+                                                {{> image}}
+                                            </div> 
+                                        </div>                                        
+                                    </div>
                                     <div class="col-md-9">
                                         <div class="form-row mb-4">
                                             <div class="col">
-                                                <!-- Surname -->
-                                                <label class="control-label">Surname</label>
-                                                <input type="text" id="surname" name="surname" class="form-control namefield" placeholder="Surname">
-                                            </div>
-                                            <div class="col">
-                                                <!-- Firstname -->
-                                                <label class="control-label">Firstname</label>
-                                                <input type="text" id="firstname" name="firstname" class="form-control namefield" placeholder="Firstname">
-                                            </div>
-                                            <div class="col">
-                                                <!-- Middlename -->
-                                                <label class="control-label">Middlename</label>
-                                                <input type="text" id="middlename" name="middlename" class="form-control namefield" placeholder="Middlename">
+                                                <!-- fullname -->
+                                                <label class="control-label">Fullname</label>
+                                                <input type="text" id="fullname" name="fullname" class="form-control namefield" placeholder="Enter Fullname">
                                             </div>
                                         </div>
                                         <div class="form-row mb-4">
@@ -82,8 +79,8 @@
                                         </div>
                                         <div class="form-row mb-4">
                                             <div class="col">
-                                                <!-- NIN -->
-                                                <label class="control-label">NIN</label>
+                                                <!-- Passport number -->
+                                                <label class="control-label">Passport Number</label>
                                                 <div class="input-group mb-3">
                                                     <input type="text" id="nin" name="nin" class="form-control" placeholder="NIN" 
                                                         aria-describedby="generateNIN" aria-label="Citizen NIN">
@@ -100,14 +97,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-row mb-1">
-                                            <div class="col">
-                                                {{> image}}
-                                            </div> 
-                                        </div>                                        
-                                    </div>
+                                    </div>                                    
                                 </div>
                                                                
                                 <div class="d-flex">
@@ -147,7 +137,7 @@
                                 <thead class="blue-grey lighten-4">
                                 <tr>
                                     <th>#</th>
-                                    <th>Surname</th>
+                                    <th>Fullname</th>
                                     <th>Firstname</th>
                                     <th>Middlename</th>
                                     <th>Dat of Birth</th>
@@ -226,8 +216,8 @@
             console.log(data); 
             //remove completed record
             data = data.filter( res => res.status == "pending");
-            data.forEach(({ surname, firstname, middlename, nin, dob, address, status, id, gender, fileurl },index)=>{      
-                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
+            data.forEach(({ fullname, firstname, middlename, nin, dob, address, status, id, gender, fileurl },index)=>{      
+                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${fullname}</td><td>${firstname}</td><td>${middlename}</td>
                 <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
                 <td>
                     <button class="btn btn-primary btn-sm my-0 p waves-effect waves-light edit">Edit</button>
@@ -393,7 +383,7 @@
 
     $('[name="save"]').click(function(e){
         e.preventDefault();
-        const surname = $('#surname').val();
+        const fullname = $('#fullname').val();
         const firstname = $('#firstname').val();
         const middlename = $('#middlename').val();
         const dob = $('#dob').val();
@@ -401,11 +391,11 @@
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!fullname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
-        const citizen = { surname, firstname, middlename, dob, nin, address, gender};
+        const citizen = { fullname, firstname, middlename, dob, nin, address, gender};
 
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
 
@@ -436,7 +426,7 @@
     $('[name="update"]').click(function(e){
         e.preventDefault();
         const id = editedID;
-        const surname = $('#surname').val();
+        const fullname = $('#fullname').val();
         const firstname = $('#firstname').val();
         const middlename = $('#middlename').val();
         const dob = $('#dob').val();
@@ -444,12 +434,12 @@
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!fullname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
         const { status } = citizens.find(obj=>obj.id == editedID);
-        const detail = { id, surname, firstname, middlename, dob, nin, address, gender, status};
+        const detail = { id, fullname, firstname, middlename, dob, nin, address, gender, status};
         const postObj = { code, detail, mode };
 
         console.log(postObj);
@@ -474,7 +464,7 @@
     $('[name="modify"]').click(function(e){
         e.preventDefault();
         const id = editedID;
-        const surname = $('#surname').val();
+        const fullname = $('#fullname').val();
         const firstname = $('#firstname').val();
         const middlename = $('#middlename').val();
         const dob = $('#dob').val();
@@ -482,13 +472,13 @@
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!fullname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const { publickey, userid } = myblocks.extras;
 
         const code = 'nimc';
         const mode = 'citizen';
-        const citizen = { id, surname, firstname, middlename, dob, nin, address, gender, publickey, userid };
+        const citizen = { id, fullname, firstname, middlename, dob, nin, address, gender, publickey, userid };
         const postObj = { code, citizen, mode };
 
         console.log('modify record: => ', postObj);
@@ -593,9 +583,9 @@
         
         editedID = $(this).closest('tr').data('id');
         console.log(citizens, editedID);
-        var { surname, firstname, middlename, dob, nin, address, gender, fileurl } = citizens.find( c => c.id == editedID)
+        var { fullname, firstname, middlename, dob, nin, address, gender, fileurl } = citizens.find( c => c.id == editedID)
 
-        $('#surname').val(surname);
+        $('#fullname').val(fullname);
         $('#firstname').val(firstname);
         $('#middlename').val(middlename);
         $('#dob').val(dob);
