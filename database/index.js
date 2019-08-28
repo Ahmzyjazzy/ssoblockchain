@@ -141,8 +141,8 @@ module.exports = function (app) {
                             role, 
                             id, 
                             orgPublickey: publickey,
-                            orgName: title,
-                            orgCode: code,
+                            appTitle: title,
+                            appLogo: code,
                             isAdmin: role == 'admin' ? true: false
                         }; 
                         req.session.user.expires = new Date().getTime() + 3 * 24 * 3600 * 1000;
