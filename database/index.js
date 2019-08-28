@@ -131,7 +131,8 @@ module.exports = function (app) {
                     const user = users.table.find( obj => obj.phone == passkey || obj.email == passkey );
                     if(user){
                         const { email, phone, name, role, id } = user;
-                        const { publickey } = organization.find(org => org.code == code);
+                        const { publickey, title } = organization.find(org => org.code == code);
+                        console.log('user login', { publickey, title, code });
                         //set session
                         req.session.user = {
                             email, 
@@ -140,6 +141,8 @@ module.exports = function (app) {
                             role, 
                             id, 
                             orgPublickey: publickey,
+                            appTitle: title,
+                            appLogo: code,
                             isAdmin: role == 'admin' ? true: false
                         }; 
                         req.session.user.expires = new Date().getTime() + 3 * 24 * 3600 * 1000;
@@ -397,12 +400,12 @@ module.exports = function (app) {
             return res.json({ status: 'error', message: 'An error occur', data: err });
         }        
     });
+
     /**
      * updateCitizen                                                                                                           
      * @param String code
      * @param Object staff
-     */
-    
+     */    
     app.put('/api/updateCitizen/', checkUserAuth, function (req, res) {
         const { code, mode, detail } = req.body;
         const url = `database/${code}/${mode}.json`;
@@ -443,4 +446,5 @@ module.exports = function (app) {
             return res.json({ status: 'success', message: 'Upload successful', data: {fileurl} });
         });
     });
+
 }
