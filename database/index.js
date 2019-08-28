@@ -132,7 +132,7 @@ module.exports = function (app) {
                     if(user){
                         const { email, phone, name, role, id } = user;
                         const { publickey, title } = organization.find(org => org.code == code);
-                        console.log('user login', { publickey, title }, organization);
+                        console.log('user login', { publickey, title, code });
                         //set session
                         req.session.user = {
                             email, 
@@ -142,6 +142,7 @@ module.exports = function (app) {
                             id, 
                             orgPublickey: publickey,
                             orgName: title,
+                            orgCode: code,
                             isAdmin: role == 'admin' ? true: false
                         }; 
                         req.session.user.expires = new Date().getTime() + 3 * 24 * 3600 * 1000;
