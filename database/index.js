@@ -86,9 +86,9 @@ const saveCitizen = (url,data,citizen,res)=> {
 
 const updateCitizen = (url,data, detail,res) => {
     const db = JSON.parse(data); //now it an object
-    const { id, surname, firstname, middlename, dob, nin, address, gender, publickey, userid } = detail; //update id
-
-    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, publickey, userid, status: "pending block" } : row);
+    const { id } = detail; //update id
+    const status = "pending block" ;
+    const updateArr = db.table.map((row) => row.id == id ? {...row, ...detail, status } : row);
     db.table = updateArr;
 
     const json = JSON.stringify(db,null,2);
@@ -418,10 +418,10 @@ module.exports = function (app) {
                 } 
                 else {
                     const db = JSON.parse(data); //now it an object
-                    const { id, surname, firstname, middlename, dob, nin, address, gender, status, publickey, userid} = detail; //update id
+                    const { id } = detail; //update id
                     console.log(id);
 
-                    const updateArr = db.table.map((row) => row.id == id ? {...row, surname, firstname, middlename, dob, nin, address, gender, status, publickey, userid} : row);
+                    const updateArr = db.table.map((row) => row.id == id ? {...row, ...detail } : row);
                     db.table = updateArr;
 
                     const json = JSON.stringify(db,null,2);

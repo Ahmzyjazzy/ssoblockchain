@@ -82,10 +82,10 @@
                                                 <!-- Passport number -->
                                                 <label class="control-label">Passport Number</label>
                                                 <div class="input-group mb-3">
-                                                    <input type="text" id="nin" name="nin" class="form-control" placeholder="NIN" 
-                                                        aria-describedby="generateNIN" aria-label="Citizen NIN">
+                                                    <input type="text" id="passport_no" name="passport_no" class="form-control" placeholder="Passport number" 
+                                                        aria-describedby="generatePassport" aria-label="Passport">
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateNIN">Generate NIN</button>
+                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generatePassport">Generate Passport</button>
                                                     </div>
                                                 </div>
                                             </div> 
@@ -100,13 +100,14 @@
                                     </div>                                    
                                 </div>
                                                                
-                                <div class="d-flex">
+                                <div class="d-flex flex-row justify-content-end">
+                                    <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
+                                        <i class="pr-2 fas fa-eye"></i>View Block History</p> 
                                     <button class="btn btn-danger" id="clearform">Clear</button>
                                     <button class="btn btn-default" type="submit" name="save">Save</button>
                                     <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
                                     <button class="btn btn-secondary d-none" type="submit" name="modify">Modify</button>
-                                    <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
-                                        <i class="pr-2 fas fa-eye"></i>View Block History</p>                                   
+                                                                      
                                 </div>
                             </form>
                         </div>
@@ -138,11 +139,9 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Fullname</th>
-                                    <th>Firstname</th>
-                                    <th>Middlename</th>
                                     <th>Dat of Birth</th>
                                     <th>Gender</th>
-                                    <th>NIN</th>
+                                    <th>Passport Number</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -195,14 +194,15 @@
 
     const loadCitizen = () => {
         return new Promise((resolve,reject)=>{
-            fetch('/api/getAll/mode=citizen&code=nimc', {
+            fetch('/api/getAll/mode=citizen&code=nis', {
                 method: 'GET',
             }).then(response => response.json())
             .then((res)=>{
+                console.log(res);
                 if(res.status == "success"){
                     resolve(res.data);
                 }
-                reject([]);
+                reject(res.data);
             });
         });        
     }
@@ -216,16 +216,16 @@
             console.log(data); 
             //remove completed record
             data = data.filter( res => res.status == "pending");
-            data.forEach(({ fullname, firstname, middlename, nin, dob, address, status, id, gender, fileurl },index)=>{      
-                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${fullname}</td><td>${firstname}</td><td>${middlename}</td>
-                <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+            data.forEach(({ fullname, passport_no, dob, address, status, id, gender, fileurl },index)=>{      
+                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${fullname}</td>
+                <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
                 <td>
                     <button class="btn btn-primary btn-sm my-0 p waves-effect waves-light edit">Edit</button>
                     <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light remove">Remove</button>
                 </td></tr>`;
                 table.append(tr);
             });
-        })        
+        }).catch(err=> console.log(err));        
     }
 
     const prepareFormData = () => {
@@ -256,11 +256,34 @@
             return nameArr;
         }
         //set names field
-        function setNames(fields){
+        function setNames(names){
             const nameFieldCount = $('.namefield').length;
-            fields.forEach((val,index) => {
-                $('.namefield').eq(index).val(val);
-            });
+            const nameCount = names.length;
+            let str = '';
+            switch(nameFieldCount){
+                case 3:
+                    //iterate and set all 3 fields -nimc/bank
+                    names.forEach((val,index) => {
+                        $('.namefield').eq(index).val(val);
+                    });
+                break;
+                case 2:
+                    //set first field -frsc
+                    $('.namefield').eq(0).val(fields[0]);
+                    //get all remaining names
+                    names.forEach((val,index) => {
+                        if(index !== 0)
+                            str += `${val} `;
+                    });
+                    //set remaining names to second field
+                    $('.namefield').eq(1).val(str);
+                break;
+                case 1:
+                    //get all names and set to field -nis
+                    str = names.join(' ');
+                    $('.namefield').eq(0).val(str);
+                break;
+            }
         }
 
         const namesList = getNames();
@@ -384,18 +407,16 @@
     $('[name="save"]').click(function(e){
         e.preventDefault();
         const fullname = $('#fullname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
         const dob = $('#dob').val();
-        const nin = $('#nin').val();
+        const passport_no = $('#passport_no').val();
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!fullname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!fullname || !dob || !passport_no || !address) return alert('Empty field not allowed');
 
-        const code = 'nimc';
+        const code = 'nis';
         const mode = 'citizen';
-        const citizen = { fullname, firstname, middlename, dob, nin, address, gender};
+        const citizen = { fullname, dob, passport_no, address, gender};
 
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
 
@@ -427,19 +448,17 @@
         e.preventDefault();
         const id = editedID;
         const fullname = $('#fullname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
         const dob = $('#dob').val();
-        const nin = $('#nin').val();
+        const passport_no = $('#passport_no').val();
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!fullname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!fullname || !dob || !passport_no || !address) return alert('Empty field not allowed');
 
-        const code = 'nimc';
+        const code = 'nis';
         const mode = 'citizen';
         const { status } = citizens.find(obj=>obj.id == editedID);
-        const detail = { id, fullname, firstname, middlename, dob, nin, address, gender, status};
+        const detail = { id, fullname, dob, passport_no, address, gender, status};
         const postObj = { code, detail, mode };
 
         console.log(postObj);
@@ -465,20 +484,18 @@
         e.preventDefault();
         const id = editedID;
         const fullname = $('#fullname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
         const dob = $('#dob').val();
-        const nin = $('#nin').val();
+        const passport_no = $('#passport_no').val();
         const address = $('#address').val();
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
-        if(!fullname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
+        if(!fullname || !dob || !passport_no || !address) return alert('Empty field not allowed');
 
         const { publickey, userid } = myblocks.extras;
 
-        const code = 'nimc';
+        const code = 'nis';
         const mode = 'citizen';
-        const citizen = { id, fullname, firstname, middlename, dob, nin, address, gender, publickey, userid };
+        const citizen = { id, fullname, dob, passport_no, address, gender, publickey, userid };
         const postObj = { code, citizen, mode };
 
         console.log('modify record: => ', postObj);
@@ -487,7 +504,7 @@
 
     $('#clearform').click(function(e){
         e.preventDefault();
-        $('input',).val('');
+        $('input').val('');
         $('[name="update"]').addClass('d-none');
         $('[name="save"]').removeClass('d-none');
         $('#view_history').addClass('d-none');
@@ -499,8 +516,8 @@
         $('.user-avatar').css('display','block');
     });        
 
-    $('#generateNIN').click(function(){
-        $('#nin').val(new Date().getTime());
+    $('#generatePassport').click(function(){
+        $('#passport_no').val(new Date().getTime());
     });
 
     $('#checkIDentity').click(function(e){
@@ -554,7 +571,7 @@
 
     $('body').on('click','.remove', function(){
         const id = $(this).closest('tr').data('id');
-        const code = 'nimc';
+        const code = 'nis';
         const mode = 'citizen';
 
         if(!confirm('Are you sure')) return false;        
@@ -583,13 +600,11 @@
         
         editedID = $(this).closest('tr').data('id');
         console.log(citizens, editedID);
-        var { fullname, firstname, middlename, dob, nin, address, gender, fileurl } = citizens.find( c => c.id == editedID)
+        var { fullname, dob, passport_no, address, gender, fileurl } = citizens.find( c => c.id == editedID)
 
         $('#fullname').val(fullname);
-        $('#firstname').val(firstname);
-        $('#middlename').val(middlename);
         $('#dob').val(dob);
-        $('#nin').val(nin);
+        $('#passport_no').val(passport_no);
         $('#address').val(address);
 
         (gender && gender == 'Male') ? $("#male").prop('checked') : $("#female").prop('checked');
