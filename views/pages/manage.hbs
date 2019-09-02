@@ -155,7 +155,7 @@
     }
 
     $('body').on('click','.approve', function(){
-        //this action calls blockcahin
+        //this action calls blockchain
         const id = $(this).closest('tr').data('id');
         const { org } = $('#auth_user').data(); 
 
@@ -182,7 +182,7 @@
     });
 
     $('body').on('click','.approve_block', function(){
-        //this action calls blockcahin
+        //this action calls blockchain
         const id = $(this).closest('tr').data('id');
         const { org } = $('#auth_user').data(); 
 
@@ -210,7 +210,7 @@
     });
 
     $('body').on('click','.reject', function(){
-        //this action calls blockcahin
+        //this action calls blockchain
         const id = $(this).closest('tr').data('id');
         const code = 'nimc';
         const mode = 'citizen';   

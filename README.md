@@ -6,8 +6,8 @@
 - 2. Name the branch the abbr/code of the new organization e.g nis for Nigeria Immigration Service
 - 3. Open the directory for register.hbs and customize the form to fit your new organization spec
 - 4. In the register.hbs, scroll down to the script part and Change all occurence of **code** 
-    in the api endpoints to your organization abbr/code
-- 5. Repeat step 4 for manage.hbs file
+    in the api endpoints to your organization abbr/code and also customize the **drawTable()** function
+- 5. Repeat step 4 for manage.hbs file and customize the **drawTable()** function
 - 6. Open the database folder in the root and create a folder that match your organization abbr/code
 - 7. In step 6 above, create the following json file into the new created organization folder
     - citizen.json
