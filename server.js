@@ -9,7 +9,7 @@ const config = require('./config.json');
 
 //setup app and port
 const app = express();
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5500;
 
 //cross origin request
 app.use(cors());

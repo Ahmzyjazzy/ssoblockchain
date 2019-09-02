@@ -111,7 +111,7 @@
 
     function loadStaff(){
         return new Promise((resolve,reject)=>{
-            fetch('/api/getAll/mode=staff&code=nimc', {
+            fetch('/api/getAll/mode=staff&code=nis', {
                 method: 'GET',
             }).then(response => response.json())
             .then((res)=>{
@@ -149,7 +149,7 @@
         const role = $("input[type='radio'][name='role']:checked").val();
         if(!name || !phone || !email) return alert('Empty field not allowed');
 
-        const code = 'nimc';
+        const code = 'nis';
         const staff = { name, phone, email, role };
         const postObj = { code, staff, mode: 'staff' };
 
@@ -181,7 +181,7 @@
 
         const id = editedID;
 
-        const code = 'nimc';
+        const code = 'nis';
         const detail = { id, name, phone, email, role };
         const postObj = { code, detail, mode: 'staff' };
 
@@ -213,7 +213,7 @@
 
     $('body').on('click','.remove', function(){
         const staff_id = $(this).closest('tr').data('id');
-        const code = 'nimc';
+        const code = 'nis';
 
         if(!confirm('Are you sure')) return false;        
 
