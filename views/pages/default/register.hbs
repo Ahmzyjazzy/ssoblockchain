@@ -266,12 +266,36 @@
             return nameArr;
         }
         //set names field
-        function setNames(fields){
+        function setNames(names){
             const nameFieldCount = $('.namefield').length;
-            fields.forEach((val,index) => {
-                $('.namefield').eq(index).val(val);
-            });
+            const nameCount = names.length;
+            let str = '';
+            switch(nameFieldCount){
+                case 3:
+                    //iterate and set all 3 fields -nimc/bank
+                    names.forEach((val,index) => {
+                        $('.namefield').eq(index).val(val);
+                    });
+                break;
+                case 2:
+                    //set first field -frsc
+                    $('.namefield').eq(0).val(fields[0]);
+                    //get all remaining names
+                    names.forEach((val,index) => {
+                        if(index !== 0)
+                            str += `${val} `;
+                    });
+                    //set remaining names to second field
+                    $('.namefield').eq(1).val(str);
+                break;
+                case 1:
+                    //get all names and set to field -nis
+                    str = names.join(' ');
+                    $('.namefield').eq(0).val(str);
+                break;
+            }
         }
+
 
         const namesList = getNames();
         setNames(namesList);
