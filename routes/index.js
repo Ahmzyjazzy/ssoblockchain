@@ -17,7 +17,7 @@ const checkUserAuth = (req, res, next) => {
 module.exports = function (app, helpers) {
 
     app.get('/', function (req, res) {
-        res.render('pages/default/', {
+        res.render('pages/', {
             title: 'Decentralized Citizen',
             layout: 'auth',
         });
@@ -25,7 +25,7 @@ module.exports = function (app, helpers) {
 
     app.get('/dashboard',checkUserAuth, function(req, res){
         const { user } = req.session;
-        res.render('pages/default/dashboard', {
+        res.render('pages/dashboard', {
             title: 'Decentralized Citizen',
             user,
             layout: 'default',
@@ -34,7 +34,7 @@ module.exports = function (app, helpers) {
 
     app.get('/staff', checkUserAuth, function(req, res){
         const { user } = req.session;
-        res.render('pages/default/staff', {
+        res.render('pages/staff', {
             title: 'Decentralized Citizen',
             user,
             layout: 'default',
@@ -43,7 +43,7 @@ module.exports = function (app, helpers) {
 
     app.get('/register',checkUserAuth, function(req, res){
         const { user } = req.session;
-        res.render('pages/default/register', {
+        res.render('pages/register', {
             title: 'Decentralized Citizen',
             user,
             layout: 'default',
@@ -52,7 +52,7 @@ module.exports = function (app, helpers) {
 
     app.get('/manage_citizen',checkUserAuth, function(req, res){
         const { user } = req.session;
-        res.render('pages/default/manage', {
+        res.render('pages/manage', {
             title: 'Decentralized Citizen',
             user,
             layout: 'default',
@@ -61,16 +61,7 @@ module.exports = function (app, helpers) {
 
     app.get('/my_nodes',checkUserAuth, function(req, res){
         const { user } = req.session;
-        res.render('pages/default/my_nodes', {
-            title: 'Decentralized Citizen',
-            user,
-            layout: 'default',
-        });
-    });
-
-    app.get('/all_nodes',checkUserAuth, function(req, res){
-        const { user } = req.session;
-        res.render('pages/default/all_nodes', {
+        res.render('pages/my_nodes', {
             title: 'Decentralized Citizen',
             user,
             layout: 'default',
@@ -83,7 +74,6 @@ module.exports = function (app, helpers) {
         res.redirect("/");
     });
 
-    
     /* fallback to 404 when page not found */
     app.get('*', function (req, res) {
         res.render('404', {
