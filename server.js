@@ -46,8 +46,7 @@ app.set( 'view engine', 'hbs' );
 require('./database')(app);
 
 //register all page routes here 
-var routes = require('./routes');
-routes(app, helpers);
+require('./routes')(app, helpers);
 
 //spin up server 
 app.listen(port, ()=> {
