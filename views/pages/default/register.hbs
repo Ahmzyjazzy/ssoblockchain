@@ -296,7 +296,6 @@
             }
         }
 
-
         const namesList = getNames();
         setNames(namesList);
 
@@ -439,7 +438,7 @@
     $('[name="save"]').click(function(e){
         e.preventDefault();
         const formData = getFormData();   
-        const gender = $("input[type='radio'][name='gender']:checked").val();
+        const gender = $('input[type="radio"][name="gender"]:checked').val();
 
         const code = 'nimc';
         const mode = 'citizen';
@@ -478,14 +477,12 @@
         e.preventDefault();
         const id = editedID;
         const formData = getFormData();   
-        const gender = $("input[type='radio'][name='gender']:checked").val();
+        const gender = $('input[type="radio"][name="gender"]:checked').val();
 
         const code = 'nimc';
         const mode = 'citizen';
         const { status } = citizens.find(obj=>obj.id == editedID);
-        const detail = { id, ...formData, gender, status};
-
-        console.log('before update ', gender);
+        const detail = { id, ...formData, gender, status};      
 
         const isValid = validateForm(detail, 'middlename');        
         if(!isValid) return alert('Empty field not allowed');       
@@ -532,7 +529,7 @@
 
     $('#clearform').click(function(e){
         e.preventDefault();
-        $('input',).val('');
+        $('input[type="text"]').val('');
         $('[name="update"]').addClass('d-none');
         $('[name="save"]').removeClass('d-none');
         $('#view_history').addClass('d-none');
@@ -625,12 +622,11 @@
     $('body').on('click','.edit', function(){        
         window.scrollTo(0,0);        
         editedID = $(this).closest('tr').data('id');        
-        //var { surname, firstname, middlename, dob, nin, address, gender, fileurl }
         const editObj = citizens.find( c => c.id == editedID);
         const { gender, fileurl } = editObj;
 
         for(prop in editObj) {
-            $(`input[name="${prop}"]`).val(editObj[prop]);
+            if(prop !== "gender") $(`input[name="${prop}"]`).val(editObj[prop]);
         }
 
         console.log({gender});        
