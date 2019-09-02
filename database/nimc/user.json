@@ -1,1 +1,57 @@
-{"table":[{"id":1566372467084,"privatekey":"ab2f7e4cc6dd1bf8f30607b438a8a2e435f9c093372d25b28cf17c3153b64ece","publickey":"049cc22cb857d06740c877b3826b3a53c79b1f4401bd80a5ddbe49c3365bd6f690e104691a9ad3d07a25e07155ccc0c9561d1552ab76e07d4de7954a15d94e2be1","name":"Ahmed Olanrewaju","phone":"08093570289","email":"olanrewaju@mail.com","role":"admin"},{"id":1566372606874,"privatekey":"53a5ba1b3222249c0c2ea83d337ab5c719f88e3f52701b6b7c883bea0946b417","publickey":"04582ecc03bfa903be9012bab4848135253514bcf34fa83f1398c20227746e6979159320067f74ee31180df521f76d0d8e5e2d014614ba17be02550c1c7dffc476","name":"Lanre Adekogbe","phone":"09012345678","email":"lanre@nimc.com","role":"staff"},{"id":1566372743160,"privatekey":"2dd08453e7d938af16f2e7fd43ba13b88c07b46b260c088a661a301beee5d6ce","publickey":"04c0f53850f29cdff4787516461c2c6ae3423e92023a8edad40bab3a224d566c45fa41f0aa4d93f98b12f58fbf6f9a3d344c2dc1c1e1b7c14a7e36b45b93e466e0","name":"Sandra Lee","phone":"0901111111","email":"sandra@nimc.com","role":"staff"},{"id":1566372769596,"privatekey":"fbc79149e5ce357a811e477863e3e8c75f756dd586a5d27140e623d1251a7036","publickey":"04835b917b45d8cebc7ce531477f3d28192c21df62e8b644b1d81b77eaa8f58c95677a63d4b947b5ac1dbcc7c52211eaa5f8e3c41f6ff030966ae4fe62d61aca49","name":"James Bond","phone":"09022222222","email":"james@nimc.com","role":"staff"},{"id":1566393677336,"privatekey":"f6770abb9ca4eb51ca0ea2d1c05aad8f3c9a9f5d801217cc8c39c5f93619a790","publickey":"04d4feb8a8eca3b994175933f8d105f197bd5dfb8cb928e2a9f1450cd97478bb84fb9758f31dba9393e46176fe36316129bd189a74038377956aabe8623e0730bf","phone":"09000000","email":"olaayanfe@nimc","role":"staff"}]}
+{
+  "table": [
+    {
+      "id": 1566372467084,
+      "privatekey": "ab2f7e4cc6dd1bf8f30607b438a8a2e435f9c093372d25b28cf17c3153b64ece",
+      "publickey": "049cc22cb857d06740c877b3826b3a53c79b1f4401bd80a5ddbe49c3365bd6f690e104691a9ad3d07a25e07155ccc0c9561d1552ab76e07d4de7954a15d94e2be1",
+      "name": "Ahmed Olanrewaju",
+      "phone": "08093570289",
+      "email": "olanrewaju@mail.com",
+      "role": "admin"
+    },
+    {
+      "id": 1566372606874,
+      "privatekey": "53a5ba1b3222249c0c2ea83d337ab5c719f88e3f52701b6b7c883bea0946b417",
+      "publickey": "04582ecc03bfa903be9012bab4848135253514bcf34fa83f1398c20227746e6979159320067f74ee31180df521f76d0d8e5e2d014614ba17be02550c1c7dffc476",
+      "name": "Lanre Adekogbe",
+      "phone": "09012345678",
+      "email": "lanre@nimc.com",
+      "role": "staff"
+    },
+    {
+      "id": 1566372743160,
+      "privatekey": "2dd08453e7d938af16f2e7fd43ba13b88c07b46b260c088a661a301beee5d6ce",
+      "publickey": "04c0f53850f29cdff4787516461c2c6ae3423e92023a8edad40bab3a224d566c45fa41f0aa4d93f98b12f58fbf6f9a3d344c2dc1c1e1b7c14a7e36b45b93e466e0",
+      "name": "Sandra Lee",
+      "phone": "0901111111",
+      "email": "sandra@nimc.com",
+      "role": "staff"
+    },
+    {
+      "id": 1566372769596,
+      "privatekey": "fbc79149e5ce357a811e477863e3e8c75f756dd586a5d27140e623d1251a7036",
+      "publickey": "04835b917b45d8cebc7ce531477f3d28192c21df62e8b644b1d81b77eaa8f58c95677a63d4b947b5ac1dbcc7c52211eaa5f8e3c41f6ff030966ae4fe62d61aca49",
+      "name": "James Bond",
+      "phone": "09022222222",
+      "email": "james@nimc.com",
+      "role": "staff"
+    },
+    {
+      "id": 1566393677336,
+      "privatekey": "f6770abb9ca4eb51ca0ea2d1c05aad8f3c9a9f5d801217cc8c39c5f93619a790",
+      "publickey": "04d4feb8a8eca3b994175933f8d105f197bd5dfb8cb928e2a9f1450cd97478bb84fb9758f31dba9393e46176fe36316129bd189a74038377956aabe8623e0730bf",
+      "phone": "09000000",
+      "email": "olaayanfe@nimc",
+      "role": "staff"
+    },
+    {
+      "id": 1567399344003,
+      "privatekey": "ab0836c9668ce0f7198a291db42019221210cc86ef2614ae5aff100f9824e2df",
+      "publickey": "044c67959d008c9875974b97237327a9d60a88bad85631f89b49d5f0f623735dde7b84df5020682397652463ff2f4a1eaa1b7b0d1697ac36b633160c4f874df7cb",
+      "name": "Ajenifuja Lanre",
+      "phone": "1234567890",
+      "email": "lanre.ajenifuja@nimc.com",
+      "role": "staff"
+    }
+  ]
+}

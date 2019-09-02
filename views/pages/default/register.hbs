@@ -391,21 +391,38 @@
         });
     }
 
+    const getFormData = () => {
+        formObj = {};
+        $('form').serializeArray().forEach((elem)=>{
+            const { name, value } = elem;
+            let obj = {};
+            obj[name] = value;
+            $.extend(formObj, obj);
+        })
+        return formObj;
+    }
+
+    const validateForm = (formData, optional) => {
+        const optionalFields = optional.split(',');
+        let isValid = true;
+        for(prop in formData){
+            if(optionalFields.indexOf(prop) == -1 && formData[prop] == "") isValid = false;
+        }
+        console.log(formData);
+        return isValid;
+    }
+
     $('[name="save"]').click(function(e){
         e.preventDefault();
-        const surname = $('#surname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
-        const dob = $('#dob').val();
-        const nin = $('#nin').val();
-        const address = $('#address').val();
+        const formData = getFormData();   
         const gender = $("input[type='radio'][name='gender']:checked").val();
-
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
-        const citizen = { surname, firstname, middlename, dob, nin, address, gender};
+        const citizen = { ...formData, gender};
+
+        const isValid = validateForm(citizen, 'middlename');        
+        if(!isValid) return alert('Empty field not allowed');       
 
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
 
@@ -436,23 +453,21 @@
     $('[name="update"]').click(function(e){
         e.preventDefault();
         const id = editedID;
-        const surname = $('#surname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
-        const dob = $('#dob').val();
-        const nin = $('#nin').val();
-        const address = $('#address').val();
+        const formData = getFormData();   
         const gender = $("input[type='radio'][name='gender']:checked").val();
-
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
 
         const code = 'nimc';
         const mode = 'citizen';
         const { status } = citizens.find(obj=>obj.id == editedID);
-        const detail = { id, surname, firstname, middlename, dob, nin, address, gender, status};
+        const detail = { id, ...formData, gender, status};
+
+        console.log('before update ', gender);
+
+        const isValid = validateForm(detail, 'middlename');        
+        if(!isValid) return alert('Empty field not allowed');       
+        
         const postObj = { code, detail, mode };
 
-        console.log(postObj);
         fetch('/api/updateCitizen', {
             method: 'PUT',
             headers: {
@@ -474,24 +489,20 @@
     $('[name="modify"]').click(function(e){
         e.preventDefault();
         const id = editedID;
-        const surname = $('#surname').val();
-        const firstname = $('#firstname').val();
-        const middlename = $('#middlename').val();
-        const dob = $('#dob').val();
-        const nin = $('#nin').val();
-        const address = $('#address').val();
+        const formData = getFormData();   
         const gender = $("input[type='radio'][name='gender']:checked").val();
-
-        if(!surname || !firstname || !dob || !nin || !address) return alert('Empty field not allowed');
-
-        const { publickey, userid } = myblocks.extras;
 
         const code = 'nimc';
         const mode = 'citizen';
-        const citizen = { id, surname, firstname, middlename, dob, nin, address, gender, publickey, userid };
-        const postObj = { code, citizen, mode };
+        const { status } = citizens.find(obj=>obj.id == editedID);
+        const { publickey, userid } = myblocks.extras;
 
-        console.log('modify record: => ', postObj);
+        const citizen = { id, ...formData, gender, publickey, userid};
+
+        const isValid = validateForm(citizen, 'middlename');        
+        if(!isValid) return alert('Empty field not allowed'); 
+
+        const postObj = { code, citizen, mode };        
         saveUserData(postObj);
     });
 
@@ -587,22 +598,19 @@
         });
     });
 
-    $('body').on('click','.edit', function(){
-        
-        window.scrollTo(0,0);
-        
-        editedID = $(this).closest('tr').data('id');
-        console.log(citizens, editedID);
-        var { surname, firstname, middlename, dob, nin, address, gender, fileurl } = citizens.find( c => c.id == editedID)
+    $('body').on('click','.edit', function(){        
+        window.scrollTo(0,0);        
+        editedID = $(this).closest('tr').data('id');        
+        //var { surname, firstname, middlename, dob, nin, address, gender, fileurl }
+        const editObj = citizens.find( c => c.id == editedID);
+        const { gender, fileurl } = editObj;
 
-        $('#surname').val(surname);
-        $('#firstname').val(firstname);
-        $('#middlename').val(middlename);
-        $('#dob').val(dob);
-        $('#nin').val(nin);
-        $('#address').val(address);
+        for(prop in editObj) {
+            $(`input[name="${prop}"]`).val(editObj[prop]);
+        }
 
-        (gender && gender == 'Male') ? $("#male").prop('checked') : $("#female").prop('checked');
+        console.log({gender});        
+        (gender && gender == 'male') ? $("#male").prop('checked', true) : $("#female").prop('checked', true);
         
         if(fileurl) {
             $('.image_container')
