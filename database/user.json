@@ -3,18 +3,18 @@
     "id": 1566372467084,
     "privatekey": "ab2f7e4cc6dd1bf8f30607b438a8a2e435f9c093372d25b28cf17c3153b64ece",
     "publickey": "049cc22cb857d06740c877b3826b3a53c79b1f4401bd80a5ddbe49c3365bd6f690e104691a9ad3d07a25e07155ccc0c9561d1552ab76e07d4de7954a15d94e2be1",
-    "name": "Sulayman Musa",
+    "name": "Dele Giwa",
     "phone": "08093570289",
-    "email": "sulayman.admin@frsc.com",
+    "email": "dele.giwa@cbn.com",
     "role": "admin"
   },
   {
     "id": 1567597173416,
     "privatekey": "12e08932172e2b3c2334403d4f70cc16c989bc0e8033acbe2430c377ec10b0bf",
     "publickey": "04d4e82ce01fe2ce1f9b17c971ef6f66087dc2bffb48d4b2a09fdc1970b34f26b6a7450e9bf64233af4b62884eeb523423769bdcac8a86726decd5b48bbf32f782",
-    "name": "John Kennedy",
+    "name": "Issa Mohammed",
     "phone": "123456789",
-    "email": "john.kenn@frsc.com",
+    "email": "issa.moh@cbn.com",
     "role": "staff"
   }
 ]
