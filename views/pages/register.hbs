@@ -31,7 +31,7 @@
                         <a data-toggle="collapse" data-parent="#accordionCont" href="#collapseForm" aria-expanded="true"
                             aria-controls="collapseForm">
                             <h5 class="mb-0 text-dark">
-                            NIS Form <i class="fas fa-angle-down rotate-icon"></i>
+                            NIMC Form <i class="fas fa-angle-down rotate-icon"></i>
                             </h5>
                         </a>
                     </div>
@@ -41,19 +41,22 @@
                         <div class="card-body">
                             <form action="" method="post">
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-row mb-1">
-                                            <div class="col">
-                                                {{> image}}
-                                            </div> 
-                                        </div>                                        
-                                    </div>
                                     <div class="col-md-9">
                                         <div class="form-row mb-4">
                                             <div class="col">
-                                                <!-- fullname -->
-                                                <label class="control-label">Fullname</label>
-                                                <input type="text" id="fullname" name="fullname" class="form-control namefield" placeholder="Enter Fullname">
+                                                <!-- Surname -->
+                                                <label class="control-label">Surname</label>
+                                                <input type="text" id="surname" name="surname" class="form-control namefield" placeholder="Surname">
+                                            </div>
+                                            <div class="col">
+                                                <!-- Firstname -->
+                                                <label class="control-label">Firstname</label>
+                                                <input type="text" id="firstname" name="firstname" class="form-control namefield" placeholder="Firstname">
+                                            </div>
+                                            <div class="col">
+                                                <!-- Middlename -->
+                                                <label class="control-label">Middlename</label>
+                                                <input type="text" id="middlename" name="middlename" class="form-control namefield" placeholder="Middlename">
                                             </div>
                                         </div>
                                         <div class="form-row mb-4">
@@ -79,13 +82,13 @@
                                         </div>
                                         <div class="form-row mb-4">
                                             <div class="col">
-                                                <!-- Passport number -->
-                                                <label class="control-label">Passport Number</label>
+                                                <!-- NIN -->
+                                                <label class="control-label">NIN</label>
                                                 <div class="input-group mb-3">
-                                                    <input type="text" id="passport_no" name="passport_no" class="form-control" placeholder="Passport number" 
-                                                        aria-describedby="generatePassport" aria-label="Passport">
+                                                    <input type="text" id="nin" name="nin" class="form-control" placeholder="NIN" 
+                                                        aria-describedby="generateNIN" aria-label="Citizen NIN">
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generatePassport">Generate Passport</button>
+                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateNIN">Generate NIN</button>
                                                     </div>
                                                 </div>
                                             </div> 
@@ -97,17 +100,23 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>                                    
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-row mb-1">
+                                            <div class="col">
+                                                {{> image}}
+                                            </div> 
+                                        </div>                                        
+                                    </div>
                                 </div>
                                                                
-                                <div class="d-flex flex-row justify-content-end">
-                                    <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
-                                        <i class="pr-2 fas fa-eye"></i>View Block History</p> 
+                                <div class="d-flex">
                                     <button class="btn btn-danger" id="clearform">Clear</button>
                                     <button class="btn btn-default" type="submit" name="save">Save</button>
                                     <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
                                     <button class="btn btn-secondary d-none" type="submit" name="modify">Modify</button>
-                                                                      
+                                    <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
+                                        <i class="pr-2 fas fa-eye"></i>View Block History</p>                                   
                                 </div>
                             </form>
                         </div>
