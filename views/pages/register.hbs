@@ -225,9 +225,9 @@
             console.log(data); 
             //remove completed record
             data = data.filter( res => res.status == "pending");
-            data.forEach(({ fullname, passport_no, dob, address, status, id, gender, fileurl },index)=>{      
-                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${fullname}</td>
-                <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
+            data.forEach(({ surname, firstname, middlename, nin, dob, address, status, id, gender, fileurl },index)=>{      
+                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
+                <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
                 <td>
                     <button class="btn btn-primary btn-sm my-0 p waves-effect waves-light edit">Edit</button>
                     <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light remove">Remove</button>
