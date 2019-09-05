@@ -34,12 +34,10 @@
                                 <thead class="blue-grey lighten-4">
                                 <tr>
                                     <th>#</th>
-                                    <th>Surname</th>
-                                    <th>Firstname</th>
-                                    <th>Middlename</th>
+                                    <th>Fullname</th>
                                     <th>Dat of Birth</th>
                                     <th>Gender</th>
-                                    <th>NIN</th>
+                                    <th>Passport number</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -66,7 +64,7 @@
 
     function loadCitizen(){
         return new Promise((resolve,reject)=>{
-            fetch('/api/getAll/mode=citizen&code=nimc', {
+            fetch('/api/getAll/mode=citizen', {
                 method: 'GET',
             }).then(response => response.json())
             .then((res)=>{
@@ -88,40 +86,40 @@
             //auth user 
             const { role } = $('#auth_user').data();
 
-            data.forEach(({ surname, firstname, middlename, nin, dob, address, status, id, gender },index)=>{ 
+            data.forEach(({ fullname, passport_no, dob, address, status, id, gender },index)=>{ 
                 let tr = '';
                 if(role == 'admin'){
                     switch(status){
                         case 'pending':
-                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
-                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${fullname}</td>
+                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
                             <td>
                                 <button class="btn btn-success btn-sm my-0 p waves-effect waves-light approve">Approve</button>
                                 <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light reject">Reject</button>
                             </td></tr>`;
                         break;
                         case 'pending block':
-                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
-                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${fullname}</td>
+                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
                             <td>
                                 <button class="btn btn-success btn-sm my-0 p waves-effect waves-light approve_block">Approve block</button>
                                 <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light reject">Reject</button>
                             </td></tr>`;
                         break;
                         case 'rejected':
-                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
-                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${fullname}</td>
+                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
                             <td class="text-center text-danger"><span class="fas fa-ban"></span></td></tr>`;
                         break;
                         case 'approved':
-                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
-                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+                            tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${fullname}</td>
+                            <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
                             <td class="text-center text-success"><span class="fas fa-ban"></span></td></tr>`;
                         break;
                     }  
                 }else{ //staff
-                    tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${surname}</td><td>${firstname}</td><td>${middlename}</td>
-                    <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${nin}</td><td>${status}</td>
+                    tr = `<tr data-id="${id}" data-addr="${address}"><td>${index + 1}</td><td>${fullname}</td>
+                    <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
                     <td class="text-center text-danger"><span class="fas fa-ban"></span></td></tr>`;
                 }
                                
@@ -132,10 +130,9 @@
 
     const updateCitizenStatus =(user, status)=> {
         
-        const code = 'nimc';
         const mode = 'citizen';
         const detail = { ...user, status };
-        const postObj = { code, detail, mode };
+        const postObj = { detail, mode };
 
         fetch('/api/updateCitizen', {
             method: 'PUT',
@@ -212,7 +209,6 @@
     $('body').on('click','.reject', function(){
         //this action calls blockchain
         const id = $(this).closest('tr').data('id');
-        const code = 'nimc';
         const mode = 'citizen';   
         const { org } = $('#auth_user').data(); 
 
