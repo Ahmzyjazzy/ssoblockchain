@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": 1568024072487,
+    "status": "pending",
+    "surname": "ADE",
+    "firstname": "SAM",
+    "middlename": "OLA",
+    "dob": "1992-08-08",
+    "gender": "male",
+    "nin": "1568024041709",
+    "address": "3A JEBBA",
+    "ssoID": "1567976813",
+    "fileurl": "1568024072454.png"
+  }
+]
