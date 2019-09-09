@@ -103,9 +103,14 @@
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-row mb-1">
-                                            <div class="col">
+                                            <div class="col-12 p-0">
                                                 {{> image}}
                                             </div> 
+                                            <div class="col-12 mt-2">
+                                                <!-- ssoID -->
+                                                <label class="control-label">SSO ID</label>
+                                                <input type="text" id="ssoID" name="ssoID" class="form-control" placeholder="Enter ssoID from fingerprint">
+                                            </div>
                                         </div>                                        
                                     </div>
                                 </div>
@@ -542,17 +547,19 @@
     });
 
     $('#checkIDentity').click(function(e){
-        const userId = $('#singleID').val();
+        const ssoID = $('#singleID').val();
 
-        if(!singleID) return alert('Enter user id');
+        if(!ssoID) return alert('Enter user id');
         const { org } = $('#auth_user').data(); 
+
+        console.log({ orgPublickey: org, ssoID });
 
         fetch('http://localhost:8900/api/check_citizen', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ orgPublickey: org, userId })
+            body: JSON.stringify({ orgPublickey: org, ssoID })
         }).then(response => response.json())
         .then((res)=>{
             if(res.status == "success"){

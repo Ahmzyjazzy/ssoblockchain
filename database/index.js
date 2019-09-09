@@ -109,7 +109,6 @@ module.exports = function (app) {
     /** login
      * @param String code
      * @param String passkey
-     * 
      */
     app.post('/api/login', function (req, res) {
         const { code, passkey } = req.body;
@@ -153,7 +152,6 @@ module.exports = function (app) {
     /** createStaff     
      * @param String mode
      * @param Object staff
-     * 
      */
     app.post('/api/createStaff', checkUserAuth, function (req, res) {
         const { mode, staff } = req.body;
@@ -186,8 +184,7 @@ module.exports = function (app) {
         }        
     });
 
-    /**
-     * updateStaff    
+    /** updateStaff    
      * @param String mode
      * @param Object detail
      */
@@ -216,12 +213,11 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * getSOne
+    /** getSOne
      * @param String mode
      * @param Integer id
      */
-    app.get('/api/getOne/mode:=:mode&id=:id', checkUserAuth, function (req, res) {
+    app.get('/api/getOne/mode=:mode&id=:id', checkUserAuth, function (req, res) {
         const { mode, id } = req.params;
         const url = `database/${mode}.json`;
         try{
@@ -244,8 +240,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * getAll
+    /** getAll
      * @param String mode
      */
     app.get('/api/getAll/mode=:mode', checkUserAuth, function (req, res) {
@@ -270,8 +265,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * deleteStaff
+    /** deleteStaff
      * @param Integer staff_id
      */
     app.delete('/api/staff', checkUserAuth, function (req, res) {
@@ -319,8 +313,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * deleteOne
+    /** deleteOne
      * @param String mode
      * @param Integer id
      */
@@ -352,8 +345,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * Register citizen
+    /** Register citizen
      * @param String mode
      * @param Object citizen
      */
@@ -384,8 +376,7 @@ module.exports = function (app) {
         }        
     });
 
-    /**
-     * updateCitizen  
+    /** updateCitizen  
      * @param String mode
      * @param Object detail
      */    
