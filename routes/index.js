@@ -17,6 +17,8 @@ const checkUserAuth = (req, res, next) => {
 module.exports = function (app, helpers) {
 
     app.get('/', function (req, res) {
+        const r = require('ua-parser').parse(req.headers['user-agent']);
+        console.log(req.connection.remoteAddress, r);
         res.render('pages/', {
             title: 'Decentralized Citizen',
             layout: 'auth',
