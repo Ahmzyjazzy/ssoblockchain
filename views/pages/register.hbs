@@ -88,9 +88,9 @@
                                                 <label class="control-label">Passport Number</label>
                                                 <div class="input-group mb-3">
                                                     <input type="text" id="passport_no" name="passport_no" class="form-control" placeholder="Passport number" 
-                                                        aria-describedby="generatePassport" aria-label="Passport">
+                                                        aria-describedby="generateUniqueNo" aria-label="Passport">
                                                     <div class="input-group-append">
-                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generatePassport">Generate Passport</button>
+                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateUniqueNo">Generate Passport</button>
                                                     </div>
                                                 </div>
                                             </div> 
@@ -533,7 +533,7 @@
         $('.user-avatar').css('display','block');
     });        
 
-    $('#generatePassport').click(function(){
+    $('#generateUniqueNo').click(function(){
         $('#passport_no').val(new Date().getTime());
     });
 
