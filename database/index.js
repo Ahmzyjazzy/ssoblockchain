@@ -111,7 +111,7 @@ const responseLogger = (res, code, start_time, action_type, message, action_data
 
     const postObj = { code, action_type, duration, status, message, action_data };
 
-    axios.post('http://localhost:8900/api/log_action', postObj)
+    axios.post('https://ssoblockchain.herokuapp.com/api/log_action', postObj)
     .then((response) => {        
         console.log("response:=> ", { status: response.status, statusText: response.statusText, data: response.data });
 
