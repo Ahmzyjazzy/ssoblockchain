@@ -3,6 +3,7 @@ const fs = require('fs');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 const organization = require('../organization');
+const axios = require('axios')
 
 const multer = require('multer');
 const upload = multer(); // for parsing multipart/form-data
@@ -104,6 +105,27 @@ const checkCitizen = (userUrl,id) => {
     });
 }
 
+const responseLogger = (res, code, start_time, action_type, message, action_data, status) => {
+    const end_time = new Date().getTime();      
+    const duration = end_time - start_time;
+
+    const postObj = { code, action_type, duration, status, message, action_data };
+
+    axios.post('http://localhost:8900/api/log_action', postObj)
+    .then((response) => {        
+        console.log("response:=> ", { status: response.status, statusText: response.statusText, data: response.data });
+
+        if(response.status == 200 && response.statusText == "OK" && response.data.status == "success"){
+            return res.json({ status, message, data: action_data });
+        }else{
+            return res.json({ status, message, data: action_data });
+        }
+    }, (error) => {
+        console.log(error);
+        return res.json({ status, message, data: error });
+    });
+}
+
 module.exports = function (app) {
 
     /** login
@@ -113,11 +135,13 @@ module.exports = function (app) {
     app.post('/api/login', function (req, res) {
         const { code, passkey } = req.body;
         const url = `database/user.json`;
+        const start_time = new Date().getTime();
 
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
-                if (err){
-                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                if (err){           
+                    responseLogger(res, code, start_time,'login', 'Some fields are empty', err, 'error');         
+                    // return res.json({ status: 'error', message: 'Some fields are empty', data: err });
                 } 
                 else {
                     const users = JSON.parse(data); 
@@ -135,17 +159,21 @@ module.exports = function (app) {
                             orgPublickey: publickey,
                             appTitle: title,
                             appLogo: code,
+                            code,
                             isAdmin: role == 'admin' ? true: false
                         }; 
                         req.session.user.expires = new Date().getTime() + 3 * 24 * 3600 * 1000;
-                        return res.json({ status: 'success', message: 'Login successfully', data: user });
+                        responseLogger(res, code, start_time,'login', 'login successfully', user, 'success');
+                        // return res.json({ status: 'success', message: 'Login successfully', data: user });
                     }else{
-                        return res.json({ status: 'error', message: 'Incorrect credentials', data: null });
+                        responseLogger(res, code, start_time,'login', 'Incorrect credentials', null, 'error');
+                        // return res.json({ status: 'error', message: 'Incorrect credentials', data: null });
                     }         
                 }
             });
         }catch(err){
-            return res.json({ status: 'error', message: 'An error occur', data: err });
+            responseLogger(res, code, start_time,'login', 'An error occur', err, 'error');
+            // return res.json({ status: 'error', message: 'An error occur', data: err });
         }        
     });
 

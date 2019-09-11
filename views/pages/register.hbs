@@ -297,7 +297,7 @@
         //set images
         if(obj.fileurl) {
             $('.image_container')
-                .css('background-image', `url(uploads/${obj.fileurl})`)
+                .css('background-image', `url(http://localhost:8900/uploads/${obj.fileurl})`)
                 .addClass('has--image');
             $('.user-avatar').css('display','none');
         }else{
@@ -444,7 +444,7 @@
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
 
         //1. upload image here and save new data
-        fetch(`/api/upload_passport`, {
+        fetch(`http://localhost:8900/api/upload_passport`, {
           method: "POST",
           cache: "no-cache",
           headers: {
@@ -627,7 +627,7 @@
         
         if(fileurl) {
             $('.image_container')
-                .css('background-image', `url(uploads/${fileurl})`)
+                .css('background-image', `url(http://localhost:8900/uploads/${fileurl})`)
                 .addClass('has--image');
             $('.user-avatar').css('display','none');
         }else{
