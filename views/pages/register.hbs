@@ -415,7 +415,6 @@
         const gender = $("input[type='radio'][name='gender']:checked").val();
 
         const mode = 'citizen';
-        const { status } = citizens.find(obj=>obj.id == editedID);
         const { publickey, userid } = myblocks.extras;
 
         const citizen = { id, ...formData, gender, publickey, userid};
