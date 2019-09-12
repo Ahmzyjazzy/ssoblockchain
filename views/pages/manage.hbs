@@ -87,7 +87,7 @@
             //auth user 
             const { role } = $('#auth_user').data();
 
-            data.forEach(({ fullname, passport_no, dob, address, status, id, gender },index)=>{ 
+            data.forEach(({ surname, othername, dob, driver_license, address, status, id, gender, fileurl },index)=>{ 
                 let tr = '';
                 if(role == 'admin'){
                     switch(status){
