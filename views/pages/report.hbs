@@ -1,0 +1,303 @@
+<!--Main layout--><!--Accordion wrapper-->
+<main class="pt-5 mx-lg-5 accordion md-accordion" id="accordionCont" role="tablist" aria-multiselectable="true">
+    <div class="container-fluid mt-5">
+
+        <!-- Heading 
+        <div class="card mb-4 wow fadeIn">
+            <div class="card-body d-sm-flex justify-content-between">
+                <h4 class="mb-2 mb-sm-0 pt-1">
+                <span>Performance Analysis</span>
+                </h4>
+            </div>
+        </div>
+        Heading -->
+
+        <div class="wow fadeIn history">
+            <ul class="nav nav-tabs md-tabs" id="myTabMD" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link active report_act" id="ssoid-tab-md" data-action="create citizen" data-cont="ssoidContainer" data-toggle="tab" href="#ssoid-md" role="tab" aria-controls="ssoid-md"
+                    aria-selected="true">Generate SSOID Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link report_act" id="retrieve-tab-md" data-action="retrieve citizen" data-cont="retrieveContainer" data-toggle="tab" href="#retrieve-md" role="tab" aria-controls="retrieve-md"
+                    aria-selected="true">Retrieve by SSOID Analysis</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link report_act" id="modify-tab-md" data-action="modify citizen" data-cont="modifyContainer" data-toggle="tab" href="#modify-md" role="tab" aria-controls="modify-md"
+                    aria-selected="true">Modified Citizen Analysis</a>
+                </li>
+            </ul>
+            <div class="tab-content card pt-5" id="myTabContentMD">
+                <div class="tab-pane fade show active" id="ssoid-md" role="tabpanel" aria-labelledby="ssoid-tab-md">
+                    <div id="ssoidContainer" class="d-flex justify-content-start flex-wrap">                        
+                        <div class="card col-12 z-depth-0">
+                            <div class="card-header py-0">
+                                <h4>Performance Analysis for Generated Single Sign-On ID</h4>
+                            </div>
+                            <div class="card-body px-0">
+                                <div class="d-flex flex-row flex-wrap mb-2">
+                                    <div class="col-md-4 mb-3">
+                                        {{> rptlist }}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="chartdiv" id="ssochart" style="min-height: 400px;"></div>
+                                    </div>
+                                </div>
+                                {{> rpttable }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="retrieve-md" role="tabpanel" aria-labelledby="retrieve-tab-md">
+                    <div id="retrieveContainer" class="d-flex justify-content-start flex-wrap">
+                        <div class="card col-12 z-depth-0">
+                            <div class="card-header py-0">
+                                <h4>Performance Analysis for Retrieve By Single Sign-On ID</h4>
+                            </div>
+                            <div class="card-body px-0">
+                                <div class="d-flex flex-row flex-wrap mb-2">
+                                    <div class="col-md-4 mb-3">
+                                        {{> rptlist }}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="chartdiv" id="retrievechart" style="min-height: 400px;"></div>
+                                    </div>
+                                </div>
+                                {{> rpttable }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade show" id="modify-md" role="tabpanel" aria-labelledby="modify-tab-md">
+                    <div id="modifyContainer" class="d-flex justify-content-start flex-wrap">
+                        <div class="card col-12 z-depth-0">
+                            <div class="card-header py-0">
+                                <h4>Performance Analysis for Modified By Single Sign-On ID</h4>
+                            </div>
+                            <div class="card-body px-0">
+                                <div class="d-flex flex-row flex-wrap mb-2">
+                                    <div class="col-md-4 mb-3">
+                                        {{> rptlist }}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="chartdiv" id="modifychart" style="min-height: 400px;"></div>
+                                    </div>
+                                </div>
+                                {{> rpttable }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</main>
+<!--Main layout-->
+
+{{> footer }}
+
+{{!-- page level js below --}}
+
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<script>
+
+    //fetch report 
+    const fetchReport = (action_type) => {
+        return new Promise((resolve, reject)=> {
+
+            fetch(`https://ssoblockchain.herokuapp.com/api/report`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ action_type })
+            }).then(response => response.json())
+            .then((res)=>{
+                (res.status == "success") ? resolve(res.data) : reject([]);
+            })
+            .catch((err)=>{
+                reject([]);
+            });
+
+        });
+    }
+
+    const timeDifference = (difference) => {
+
+        var dayDiff = Math.floor(difference/1000/60/60/24);
+        difference -= dayDiff*1000*60*60*24;
+
+        var hourDiff = Math.floor(difference/1000/60/60);
+        difference -= hourDiff*1000*60*60;
+
+        var minDiff = Math.floor(difference/1000/60);
+        difference -= minDiff*1000*60;
+
+        var secDiff = Math.floor(difference/1000);
+        console.log(hourDiff);
+        const h = String(hourDiff).length == 1 ? String(hourDiff).padStart(2,"0") : hourDiff;
+        const m = String(minDiff).length == 1 ? String(minDiff).padStart(2,"0"): minDiff;
+        const s = String(secDiff).length == 1 ? String(secDiff).padStart(2,"0"):secDiff;
+
+        return `${h} : ${m} : ${s}`;
+    }
+
+    const sumTimeDuration = (total, item) => {
+        let { duration } = item; 
+
+        const dayDiff = Math.floor(duration/1000/60/60/24);
+        duration -= dayDiff*1000*60*60*24;
+
+        const hourDiff = Math.floor(duration/1000/60/60);
+        duration -= hourDiff*1000*60*60;
+
+        const minDiff = Math.floor(duration/1000/60);
+        duration -= minDiff*1000*60;
+
+        const secDiff = Math.floor(duration/1000);
+
+        return total + Number(secDiff);
+    } 
+
+    const generateChart = (selector, data) => {
+        am4core.ready(function() {
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
+            // Themes end
+
+            // Create chart instance
+            var chart = am4core.create(selector, am4charts.XYChart);
+
+            // Export
+            chart.exporting.menu = new am4core.ExportMenu();
+            
+            /* Create axes */
+            var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
+            categoryAxis.dataFields.category = "orgCode";
+            categoryAxis.renderer.minGridDistance = 30;
+
+            /* Create value axis */
+            var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+
+            /* Create series */
+            var columnSeries = chart.series.push(new am4charts.ColumnSeries());
+            columnSeries.name = "SSO Count";
+            columnSeries.dataFields.valueY = "ssoCount";
+            columnSeries.dataFields.categoryX = "orgCode";
+
+            columnSeries.columns.template.tooltipText = "[#fff font-size: 15px]{name} in {categoryX}:\n[/][#fff font-size: 20px]{valueY}[/] [#fff]{additional}[/]"
+            columnSeries.columns.template.propertyFields.fillOpacity = "fillOpacity";
+            columnSeries.columns.template.propertyFields.stroke = "stroke";
+            columnSeries.columns.template.propertyFields.strokeWidth = "strokeWidth";
+            columnSeries.columns.template.propertyFields.strokeDasharray = "columnDash";
+            columnSeries.tooltip.label.textAlign = "middle";
+
+            var lineSeries = chart.series.push(new am4charts.LineSeries());
+            lineSeries.name = "Total Time taken (s)";
+            lineSeries.dataFields.valueY = "timeTaken";
+            lineSeries.dataFields.categoryX = "orgCode";
+
+            lineSeries.stroke = am4core.color("#fdd400");
+            lineSeries.strokeWidth = 3;
+            lineSeries.propertyFields.strokeDasharray = "lineDash";
+            lineSeries.tooltip.label.textAlign = "middle";
+
+            var bullet = lineSeries.bullets.push(new am4charts.Bullet());
+            bullet.fill = am4core.color("#fdd400"); // tooltips grab fill from parent by default
+            bullet.tooltipText = "[#fff font-size: 15px]{name} to generate SSOID in {categoryX}:\n[/][#fff font-size: 20px]{valueY} second(s)[/] [#fff]{additional}[/]"
+            var circle = bullet.createChild(am4core.Circle);
+            circle.radius = 4;
+            circle.fill = am4core.color("#fff");
+            circle.strokeWidth = 3;
+
+            chart.data = data;
+
+        }); // end am4core.ready()
+    }
+     
+
+    //display result
+    const displayReport = (container, data) => {
+        const $cont = $(`#${container}`);
+        const tbody = $cont.find("tbody");
+        tbody.html("");
+
+        data.forEach((item)=>{
+            const { code, duration, status, action_data } = item;
+            const { ssoID } = action_data;
+            //generate template
+            const tr = `<tr><td>${code.toUpperCase()}</td>
+                <td>${ssoID}</td>
+                <td>${timeDifference(Number(duration))}</td>
+                <td>${ (status == "success") ? 1 : 0 }</td>
+                <td>${ (status == "error") ? 1 : 0 }</td>
+            </tr>`;
+            tbody.append(tr);
+        });
+
+        const total_count = data.length;
+        const success_count = data.filter(item => item.status == "success").length;
+        const failure_count = data.filter(item => item.status == "error").length;
+        const percent_count = (success_count * 100) / total_count;
+        const percentf = (failure_count * 100) / total_count;
+
+        $cont.find('.total-count').html(total_count);
+        $cont.find('.success-count').html(success_count);
+        $cont.find('.failure-count').html(failure_count);
+        $cont.find('.percent-count').html(percent_count);
+        $cont.find('.percentf').html(percentf);
+
+        const nis_count = data.filter(item => item.code == "nis").length;
+        const nimc_count = data.filter(item => item.code == "nimc").length;
+        const frsc_count = data.filter(item => item.code == "frsc").length;
+        const cbn_count = data.filter(item => item.code == "cbn").length;
+
+        const nis_time = data.filter(item => item.code == "nis").reduce(sumTimeDuration, 0);
+        const nimc_time = data.filter(item => item.code == "nimc").reduce(sumTimeDuration, 0);
+        const frsc_time = data.filter(item => item.code == "frsc").reduce(sumTimeDuration, 0);
+        const cbn_time = data.filter(item => item.code == "cbn").reduce(sumTimeDuration, 0);
+
+        //plot chart 
+        // Data for both series
+        const chartData = [ {
+            "orgCode": "NIS",
+            "ssoCount": nis_count,
+            "timeTaken": nis_time
+            },
+            {
+            "orgCode": "NIMC",
+            "ssoCount": nimc_count,
+            "timeTaken": nimc_time
+            },
+            {
+            "orgCode": "FRSC",
+            "ssoCount": frsc_count,
+            "timeTaken": frsc_time
+            },
+            {
+            "orgCode": "CBN",
+            "ssoCount": cbn_count,
+            "timeTaken": cbn_time
+            }
+        ];
+        const selector = $cont.find('.chartdiv').attr('id');
+        console.log(selector);
+        generateChart(selector, chartData);            
+    }
+
+    (async function(){        
+        const data1 = await fetchReport("create citizen");
+        displayReport("ssoidContainer", data1);
+
+        const data2 = await fetchReport("retrieve citizen");
+        displayReport("retrieveContainer", data2);
+
+        const data3 = await fetchReport("modify citizen");
+        displayReport("modifyContainer", data3);
+    }())
+    
+</script>

@@ -1,0 +1,105 @@
+<!-- Accordion card -->
+    <div class="card z-depth-0">
+        <!-- Card header -->
+        <div class="card-header" role="tab" id="collapseFormHeading">
+            <a data-toggle="collapse" data-parent="#accordionCont" href="#collapseForm" aria-expanded="true"
+                aria-controls="collapseForm">
+                <h5 class="mb-0 text-dark">
+                CBN Form <i class="fas fa-angle-down rotate-icon"></i>
+                </h5>
+            </a>
+        </div>
+        <!-- Card body -->
+        <div id="collapseForm" class="collapse show" role="tabpanel" aria-labelledby="collapseFormHeading"
+        data-parent="#accordionCont">
+            <div class="card-body">
+                <form action="" method="post">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-row mb-1">
+                                <div class="col-12 p-0">
+                                    {{> image}}
+                                </div> 
+                            </div>                                        
+                        </div>
+                        <div class="col-md-9">
+                            <div class="form-row mb-4">
+                                 <div class="col">
+                                <!-- Lastname -->
+                                <label class="control-label">Lastname</label>
+                                <input type="text" id="lastname" name="lastname" class="form-control namefield" placeholder="Lastname">
+                            </div>
+                            <div class="col">
+                                <!-- Firstname -->
+                                <label class="control-label">Firstname</label>
+                                <input type="text" id="firstname" name="firstname" class="form-control namefield" placeholder="Firstname">
+                            </div>
+                            <div class="col">
+                                <!-- Othername -->
+                                <label class="control-label">Othername</label>
+                                <input type="text" id="othername" name="othername" class="form-control namefield" placeholder="Othernane">
+                            </div>
+                            </div>
+                            <div class="form-row mb-4">
+                                <div class="col">
+                                    <!-- ssoID -->
+                                    <label class="control-label">SSO ID</label>
+                                    <input type="text" id="ssoID" name="ssoID" class="form-control" placeholder="Enter ssoID from fingerprint">
+                                </div>
+                                <div class="col">
+                                    <!-- DOB -->
+                                    <label class="control-label">Date of Birth</label>
+                                    <input type="date" id="dob" name="dob" class="form-control" placeholder="Date of birth">
+                                </div>
+                                <div class="col">
+                                    <!-- Gender -->
+                                    <label class="control-label">Gender</label>
+                                    <div class="mt-2 d-flex">
+                                        <div class="custom-control custom-radio mr-3">
+                                            <input type="radio" class="custom-control-input" id="male" name="gender" checked value="male">
+                                            <label class="custom-control-label" for="male">Male</label>
+                                        </div>
+                                        <div class="custom-control custom-radio">
+                                            <input type="radio" class="custom-control-input" id="female" name="gender" value="female">
+                                            <label class="custom-control-label" for="female">Female</label>
+                                        </div>
+                                    </div>
+                                </div>                     
+                            </div>
+                            <div class="form-row mb-4">
+                                <div class="col">
+                                    <!-- BVN -->
+                                    <label class="control-label">Bank Verification Number</label>
+                                    <div class="input-group mb-3">
+                                        <input type="text" id="bvn" name="bvn" class="form-control" placeholder="BVN" 
+                                            aria-describedby="generateUniqueNo" aria-label="Passport">
+                                        <div class="input-group-append">
+                                            <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateUniqueNo">Generate BVN</button>
+                                        </div>
+                                    </div>
+                                </div> 
+                                <div class="col">                                                
+                                    <!-- Address -->
+                                    <div class="form-group">
+                                        <label for="address">Address</label>
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Residential Address">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                                    
+                    </div>
+                                                    
+                    <div class="d-flex flex-row justify-content-end">
+                        <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
+                            <i class="pr-2 fas fa-eye"></i>View Block History</p> 
+                        <button class="btn btn-danger" id="clearform">Clear</button>
+                        <button class="btn btn-default" type="submit" name="save">Save</button>
+                        <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
+                        <button class="btn btn-secondary d-none" type="submit" name="modify">Modify</button>
+                                                            
+                    </div>
+                </form>
+            </div>
+        </div>                    
+    </div>
+        <!--/ Accordion card -->
