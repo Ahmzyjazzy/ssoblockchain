@@ -3,6 +3,7 @@ const fs = require('fs');
 const EC = require('elliptic').ec;
 const ec = new EC('secp256k1');
 const organization = require('../organization');
+const axios = require('axios')
 
 const multer = require('multer');
 const upload = multer(); // for parsing multipart/form-data
@@ -104,21 +105,43 @@ const checkCitizen = (userUrl,id) => {
     });
 }
 
+const responseLogger = (res, code, start_time, action_type, message, action_data, status) => {
+    const end_time = new Date().getTime();      
+    const duration = end_time - start_time;
+
+    const postObj = { code, action_type, duration, status, message, action_data };
+
+    axios.post('https://ssoblockchain.herokuapp.com/api/log_action', postObj)
+    .then((response) => {        
+        console.log("response:=> ", { status: response.status, statusText: response.statusText, data: response.data });
+
+        if(response.status == 200 && response.statusText == "OK" && response.data.status == "success"){
+            return res.json({ status, message, data: action_data });
+        }else{
+            return res.json({ status, message, data: action_data });
+        }
+    }, (error) => {
+        console.log(error);
+        return res.json({ status, message, data: error });
+    });
+}
+
 module.exports = function (app) {
 
     /** login
      * @param String code
      * @param String passkey
-     * 
      */
     app.post('/api/login', function (req, res) {
         const { code, passkey } = req.body;
         const url = `database/user.json`;
+        const start_time = new Date().getTime();
 
         try{
             fs.readFile(url, 'utf8', (err, data)=>{
-                if (err){
-                    return res.json({ status: 'error', message: 'Some fields are empty', data: err });
+                if (err){           
+                    responseLogger(res, code, start_time,'login', 'Some fields are empty', err, 'error');         
+                    // return res.json({ status: 'error', message: 'Some fields are empty', data: err });
                 } 
                 else {
                     const users = JSON.parse(data); 
@@ -136,24 +159,27 @@ module.exports = function (app) {
                             orgPublickey: publickey,
                             appTitle: title,
                             appLogo: code,
+                            code,
                             isAdmin: role == 'admin' ? true: false
                         }; 
                         req.session.user.expires = new Date().getTime() + 3 * 24 * 3600 * 1000;
-                        return res.json({ status: 'success', message: 'Login successfully', data: user });
+                        responseLogger(res, code, start_time,'login', 'login successfully', user, 'success');
+                        // return res.json({ status: 'success', message: 'Login successfully', data: user });
                     }else{
-                        return res.json({ status: 'error', message: 'Incorrect credentials', data: null });
+                        responseLogger(res, code, start_time,'login', 'Incorrect credentials', null, 'error');
+                        // return res.json({ status: 'error', message: 'Incorrect credentials', data: null });
                     }         
                 }
             });
         }catch(err){
-            return res.json({ status: 'error', message: 'An error occur', data: err });
+            responseLogger(res, code, start_time,'login', 'An error occur', err, 'error');
+            // return res.json({ status: 'error', message: 'An error occur', data: err });
         }        
     });
 
     /** createStaff     
      * @param String mode
      * @param Object staff
-     * 
      */
     app.post('/api/createStaff', checkUserAuth, function (req, res) {
         const { mode, staff } = req.body;
@@ -186,8 +212,7 @@ module.exports = function (app) {
         }        
     });
 
-    /**
-     * updateStaff    
+    /** updateStaff    
      * @param String mode
      * @param Object detail
      */
@@ -216,12 +241,11 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * getSOne
+    /** getSOne
      * @param String mode
      * @param Integer id
      */
-    app.get('/api/getOne/mode:=:mode&id=:id', checkUserAuth, function (req, res) {
+    app.get('/api/getOne/mode=:mode&id=:id', checkUserAuth, function (req, res) {
         const { mode, id } = req.params;
         const url = `database/${mode}.json`;
         try{
@@ -244,8 +268,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * getAll
+    /** getAll
      * @param String mode
      */
     app.get('/api/getAll/mode=:mode', checkUserAuth, function (req, res) {
@@ -270,8 +293,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * deleteStaff
+    /** deleteStaff
      * @param Integer staff_id
      */
     app.delete('/api/staff', checkUserAuth, function (req, res) {
@@ -319,8 +341,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * deleteOne
+    /** deleteOne
      * @param String mode
      * @param Integer id
      */
@@ -352,8 +373,7 @@ module.exports = function (app) {
         }  
     });
 
-    /**
-     * Register citizen
+    /** Register citizen
      * @param String mode
      * @param Object citizen
      */
@@ -384,8 +404,7 @@ module.exports = function (app) {
         }        
     });
 
-    /**
-     * updateCitizen  
+    /** updateCitizen  
      * @param String mode
      * @param Object detail
      */    

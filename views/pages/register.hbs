@@ -24,96 +24,7 @@
 
         <div class="row wow fadeIn main_cont">
             <div class="col-md-12 mb-4">
-                 <!-- Accordion card -->
-                <div class="card z-depth-0">
-                    <!-- Card header -->
-                    <div class="card-header" role="tab" id="collapseFormHeading">
-                        <a data-toggle="collapse" data-parent="#accordionCont" href="#collapseForm" aria-expanded="true"
-                            aria-controls="collapseForm">
-                            <h5 class="mb-0 text-dark">
-                            FRSC Form <i class="fas fa-angle-down rotate-icon"></i>
-                            </h5>
-                        </a>
-                    </div>
-                    <!-- Card body -->
-                    <div id="collapseForm" class="collapse show" role="tabpanel" aria-labelledby="collapseFormHeading"
-                    data-parent="#accordionCont">
-                        <div class="card-body">
-                            <form action="" method="post">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-row mb-1">
-                                            <div class="col">
-                                                {{> image}}
-                                            </div> 
-                                        </div>                                        
-                                    </div>
-                                    <div class="col-md-9">
-                                        <div class="form-row mb-4">
-                                            <div class="col">
-                                                <!-- fullname -->
-                                                <label class="control-label">Fullname</label>
-                                                <input type="text" id="fullname" name="fullname" class="form-control namefield" placeholder="Enter Fullname">
-                                            </div>
-                                        </div>
-                                        <div class="form-row mb-4">
-                                            <div class="col">
-                                                <!-- DOB -->
-                                                <label class="control-label">Date of Birth</label>
-                                                <input type="date" id="dob" name="dob" class="form-control" placeholder="Date of birth">
-                                            </div>
-                                            <div class="col">
-                                                <!-- Gender -->
-                                                <label class="control-label">Gender</label>
-                                                <div class="mt-2 d-flex">
-                                                    <div class="custom-control custom-radio mr-3">
-                                                        <input type="radio" class="custom-control-input" id="male" name="gender" checked value="male">
-                                                        <label class="custom-control-label" for="male">Male</label>
-                                                    </div>
-                                                    <div class="custom-control custom-radio">
-                                                        <input type="radio" class="custom-control-input" id="female" name="gender" value="female">
-                                                        <label class="custom-control-label" for="female">Female</label>
-                                                    </div>
-                                                </div>
-                                            </div>                     
-                                        </div>
-                                        <div class="form-row mb-4">
-                                            <div class="col">
-                                                <!-- Passport number -->
-                                                <label class="control-label">Passport Number</label>
-                                                <div class="input-group mb-3">
-                                                    <input type="text" id="passport_no" name="passport_no" class="form-control" placeholder="Passport number" 
-                                                        aria-describedby="generatePassport" aria-label="Passport">
-                                                    <div class="input-group-append">
-                                                        <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generatePassport">Generate Passport</button>
-                                                    </div>
-                                                </div>
-                                            </div> 
-                                            <div class="col">                                                
-                                                <!-- Address -->
-                                                <div class="form-group">
-                                                    <label for="address">Address</label>
-                                                    <input type="text" class="form-control" id="address" name="address">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>                                    
-                                </div>
-                                                               
-                                <div class="d-flex flex-row justify-content-end">
-                                    <p class="ml-5 my-2 text-warning h6 justify-content-center align-items-center d-none" style="cursor: pointer;" id="view_history">
-                                        <i class="pr-2 fas fa-eye"></i>View Block History</p> 
-                                    <button class="btn btn-danger" id="clearform">Clear</button>
-                                    <button class="btn btn-default" type="submit" name="save">Save</button>
-                                    <button class="btn btn-primary d-none" type="submit" name="update">Update</button>
-                                    <button class="btn btn-secondary d-none" type="submit" name="modify">Modify</button>
-                                                                      
-                                </div>
-                            </form>
-                        </div>
-                    </div>                    
-                </div>
-                 <!--/ Accordion card -->
+                {{> frscform }}
             </div>
         </div>
 
@@ -138,10 +49,11 @@
                                 <thead class="blue-grey lighten-4">
                                 <tr>
                                     <th>#</th>
-                                    <th>Fullname</th>
-                                    <th>Dat of Birth</th>
+                                    <th>Surname</th>
+                                    <th>Othernames</th>
+                                    <th>Date of Birth</th>
                                     <th>Gender</th>
-                                    <th>Passport Number</th>
+                                    <th>Driver License</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
@@ -216,9 +128,9 @@
             console.log(data); 
             //remove completed record
             data = data.filter( res => res.status == "pending");
-            data.forEach(({ fullname, passport_no, dob, address, status, id, gender, fileurl },index)=>{      
-                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${fullname}</td>
-                <td>${dob}</td><<td>${gender ? gender : "N/A"}</td><td>${passport_no}</td><td>${status}</td>
+            data.forEach(({ surname, othername, dob, driver_license, address, status, id, gender, fileurl },index)=>{      
+                const tr = `<tr data-id="${id}" data-addr="${address}" data-fileurl="${fileurl}"><td>${index + 1}</td><td>${surname}</td><td>${othername}</td>
+                <td>${dob}</td><td>${gender ? gender : "N/A"}</td><td>${driver_license}</td><td>${status}</td>
                 <td>
                     <button class="btn btn-primary btn-sm my-0 p waves-effect waves-light edit">Edit</button>
                     <button class="btn btn-danger btn-sm my-0 p waves-effect waves-light remove">Remove</button>
@@ -292,7 +204,7 @@
         //set images
         if(obj.fileurl) {
             $('.image_container')
-                .css('background-image', `url(uploads/${obj.fileurl})`)
+                .css('background-image', `url(https://ssoblockchain.herokuapp.com/uploads/${obj.fileurl})`)
                 .addClass('has--image');
             $('.user-avatar').css('display','none');
         }else{
@@ -439,7 +351,7 @@
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
 
         //1. upload image here and save new data
-        fetch(`/api/upload_passport`, {
+        fetch(`https://ssoblockchain.herokuapp.com/api/upload_passport`, {
           method: "POST",
           cache: "no-cache",
           headers: {
@@ -528,22 +440,24 @@
         $('.user-avatar').css('display','block');
     });        
 
-    $('#generatePassport').click(function(){
-        $('#passport_no').val(new Date().getTime());
+    $('#generateUniqueNo').click(function(){
+        $('#driver_license').val(new Date().getTime());
     });
 
     $('#checkIDentity').click(function(e){
-        const userId = $('#singleID').val();
+        const ssoID = $('#singleID').val();
 
-        if(!singleID) return alert('Enter user id');
+        if(!ssoID) return alert('Enter user id');
         const { org } = $('#auth_user').data(); 
 
-        fetch('http://localhost:8900/api/check_citizen', {
+        console.log({ orgPublickey: org, ssoID });
+
+        fetch('https://ssoblockchain.herokuapp.com/api/check_citizen', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ orgPublickey: org, userId })
+            body: JSON.stringify({ orgPublickey: org, ssoID })
         }).then(response => response.json())
         .then((res)=>{
             if(res.status == "success"){
@@ -620,7 +534,7 @@
         
         if(fileurl) {
             $('.image_container')
-                .css('background-image', `url(uploads/${fileurl})`)
+                .css('background-image', `url(https://ssoblockchain.herokuapp.com/uploads/${fileurl})`)
                 .addClass('has--image');
             $('.user-avatar').css('display','none');
         }else{
