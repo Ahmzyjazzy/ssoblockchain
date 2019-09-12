@@ -347,7 +347,7 @@
         const mode = 'citizen';
         const citizen = { ...formData, gender};
 
-        const isValid = validateForm(citizen, 'middlename');        
+        const isValid = validateForm(citizen, 'othername');        
         if(!isValid) return alert('Empty field not allowed');       
 
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
@@ -386,7 +386,7 @@
         const { status } = citizens.find(obj=>obj.id == editedID);
         const detail = { id, ...formData, gender, status};      
 
-        const isValid = validateForm(detail, 'middlename');        
+        const isValid = validateForm(detail, 'othername');        
         if(!isValid) return alert('Empty field not allowed');       
         
         const postObj = { detail, mode };
@@ -420,7 +420,7 @@
 
         const citizen = { id, ...formData, gender, publickey, userid};
 
-        const isValid = validateForm(citizen, 'middlename');        
+        const isValid = validateForm(citizen, 'othername');        
         if(!isValid) return alert('Empty field not allowed'); 
 
         const postObj = { citizen, mode };        
