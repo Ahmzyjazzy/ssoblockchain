@@ -67,11 +67,10 @@ const checkUserAuth = (req, res, next) => {
     }
 }
 
-const saveCitizen = (url,data,citizen,res)=> {
+const saveCitizen = (url,data,citizen,res,status)=> {
     //add timestamp before saving
     const id = new Date().getTime();
     const citizens = JSON.parse(data); //now it an object
-    const status = "pending";
 
     citizens.push({id, status, ...citizen}); //add some data
     const json = JSON.stringify(citizens,null,2); //convert it back to json
@@ -392,10 +391,10 @@ module.exports = function (app) {
                         const { id } = citizen;
                         //check if exist in local db
                         checkCitizen(url,id).then((exist)=>{
-                            !exist ? saveCitizen(url,data,citizen,res) : /** for existing block*/ updateCitizen(url,data,citizen,res);
+                            !exist ? saveCitizen(url,data,citizen,res,"pending block") : /** for existing block*/ updateCitizen(url,data,citizen,res);
                         }).catch(e => res.json({ status: 'error', message: 'An error occur', data: e }));
                     }else{
-                        saveCitizen(url,data,citizen,res);
+                        saveCitizen(url,data,citizen,res,"pending");
                     }               
                 }
             });
