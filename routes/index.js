@@ -23,10 +23,10 @@ module.exports = function (app, helpers) {
         });
     });
 
-    app.get('/dashboard',checkUserAuth, function(req, res){
-        const { user } = req.session;
-        res.render('pages/dashboard', {
-            title: 'Decentralized Citizen',
+    app.get('/report',checkUserAuth, function(req, res){
+        const { user } = req.session;      
+        res.render('pages/report', {
+            title: `Report | ${user.code.toUpperCase()}`,
             user,
             layout: 'default',
         });
@@ -35,7 +35,7 @@ module.exports = function (app, helpers) {
     app.get('/staff', checkUserAuth, function(req, res){
         const { user } = req.session;
         res.render('pages/staff', {
-            title: 'Decentralized Citizen',
+            title: `Staff | ${user.code.toUpperCase()}`,
             user,
             layout: 'default',
         });
@@ -44,7 +44,7 @@ module.exports = function (app, helpers) {
     app.get('/register',checkUserAuth, function(req, res){
         const { user } = req.session;
         res.render('pages/register', {
-            title: 'Decentralized Citizen',
+            title: `Register | ${user.code.toUpperCase()}`,
             user,
             layout: 'default',
         });
@@ -53,7 +53,7 @@ module.exports = function (app, helpers) {
     app.get('/manage_citizen',checkUserAuth, function(req, res){
         const { user } = req.session;
         res.render('pages/manage', {
-            title: 'Decentralized Citizen',
+            title: `Manage | ${user.code.toUpperCase()}`,
             user,
             layout: 'default',
         });
@@ -62,7 +62,7 @@ module.exports = function (app, helpers) {
     app.get('/my_nodes',checkUserAuth, function(req, res){
         const { user } = req.session;
         res.render('pages/my_nodes', {
-            title: 'Decentralized Citizen',
+            title: `My Nodes | ${user.code.toUpperCase()}`,
             user,
             layout: 'default',
         });
