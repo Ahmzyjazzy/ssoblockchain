@@ -5,7 +5,7 @@
             <a data-toggle="collapse" data-parent="#accordionCont" href="#collapseForm" aria-expanded="true"
                 aria-controls="collapseForm">
                 <h5 class="mb-0 text-dark">
-                NIS Form <i class="fas fa-angle-down rotate-icon"></i>
+                CBN Form <i class="fas fa-angle-down rotate-icon"></i>
                 </h5>
             </a>
         </div>
@@ -17,11 +17,6 @@
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-row mb-1">
-                                <div class="col-12">
-                                    <!-- ssoID -->
-                                    <label class="control-label">SSO ID</label>
-                                    <input type="text" id="ssoID" name="ssoID" class="form-control" placeholder="Enter ssoID from fingerprint">
-                                </div>
                                 <div class="col-12 p-0">
                                     {{> image}}
                                 </div> 
@@ -29,13 +24,28 @@
                         </div>
                         <div class="col-md-9">
                             <div class="form-row mb-4">
-                                <div class="col">
-                                    <!-- fullname -->
-                                    <label class="control-label">Fullname</label>
-                                    <input type="text" id="fullname" name="fullname" class="form-control namefield" placeholder="Enter Fullname: (Surname first) (Firstname) (Othername)">
-                                </div>
+                                 <div class="col">
+                                <!-- Lastname -->
+                                <label class="control-label">Lastname</label>
+                                <input type="text" id="lastname" name="lastname" class="form-control namefield" placeholder="Lastname">
+                            </div>
+                            <div class="col">
+                                <!-- Firstname -->
+                                <label class="control-label">Firstname</label>
+                                <input type="text" id="firstname" name="firstname" class="form-control namefield" placeholder="Firstname">
+                            </div>
+                            <div class="col">
+                                <!-- Othername -->
+                                <label class="control-label">Othername</label>
+                                <input type="text" id="othername" name="othername" class="form-control namefield" placeholder="Othernane">
+                            </div>
                             </div>
                             <div class="form-row mb-4">
+                                <div class="col">
+                                    <!-- ssoID -->
+                                    <label class="control-label">SSO ID</label>
+                                    <input type="text" id="ssoID" name="ssoID" class="form-control" placeholder="Enter ssoID from fingerprint">
+                                </div>
                                 <div class="col">
                                     <!-- DOB -->
                                     <label class="control-label">Date of Birth</label>
@@ -58,13 +68,13 @@
                             </div>
                             <div class="form-row mb-4">
                                 <div class="col">
-                                    <!-- Passport number -->
-                                    <label class="control-label">Passport Number</label>
+                                    <!-- BVN -->
+                                    <label class="control-label">Bank Verification Number</label>
                                     <div class="input-group mb-3">
-                                        <input type="text" id="passport_no" name="passport_no" class="form-control" placeholder="Passport number" 
+                                        <input type="text" id="bvn" name="bvn" class="form-control" placeholder="BVN" 
                                             aria-describedby="generateUniqueNo" aria-label="Passport">
                                         <div class="input-group-append">
-                                            <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateUniqueNo">Generate Passport</button>
+                                            <button class="btn btn-md btn-outline-default m-0 px-3 py-2 z-depth-0 waves-effect" type="button" id="generateUniqueNo">Generate BVN</button>
                                         </div>
                                     </div>
                                 </div> 
@@ -72,7 +82,7 @@
                                     <!-- Address -->
                                     <div class="form-group">
                                         <label for="address">Address</label>
-                                        <input type="text" class="form-control" id="address" name="address" placeholder="Your Home Address">
+                                        <input type="text" class="form-control" id="address" name="address" placeholder="Residential Address">
                                     </div>
                                 </div>
                             </div>
