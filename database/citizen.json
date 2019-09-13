@@ -1,1 +1,16 @@
-[]
+[
+  {
+    "id": 1568344439997,
+    "status": "approved",
+    "surname": "OLANREWAJU",
+    "firstname": "AHMED",
+    "middlename": "OLAYINKA",
+    "dob": "1993-06-17",
+    "gender": "male",
+    "nin": "1568345296501",
+    "address": "3 ADEBAMBO YUSUF STREET, IKORODU LAGOS",
+    "ssoID": "1568343322",
+    "publickey": "0405d915a9b0384de2423ba1083e0f9f676e53575893ff1b8a0f548dbbab20757ca66a749bd1bc46802a28c51905a2a75a450b699a90a0a22439450460d60eb2cf",
+    "userid": "5d7b0a698afa333ce4d66c0e"
+  }
+]
