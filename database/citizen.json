@@ -99,7 +99,7 @@
   },
   {
     "id": 1568395728494,
-    "status": "pending",
+    "status": "approved",
     "surname": "OMOBUKOLA",
     "firstname": "OLANREWAJU",
     "middlename": "DANIEL",
@@ -108,7 +108,8 @@
     "nin": "1568395699003",
     "address": "8 NUBI CLOSE, EBUTE METTA LAGOS",
     "ssoID": "1568365013",
-    "fileurl": "1568395728464.png"
+    "fileurl": "1568395728464.png",
+    "publickey": "04628d165ec2b1d41fcc0c06dedaf0b943dcb93127a7e06c962bc3bb004882e2f3bb1962715f6bd15b431145af00cc72e68fe64b94707b79d9b8684815326561f0"
   },
   {
     "id": 1568395850892,
@@ -203,7 +204,7 @@
   },
   {
     "id": 1568397144865,
-    "status": "pending",
+    "status": "approved",
     "surname": "IDRIS",
     "firstname": "AMIRAH",
     "middlename": "AJOKE",
@@ -212,11 +213,12 @@
     "nin": "1568397084563",
     "address": "BLOCK 3, FLAT 2 BASIN STAFF QUARTERS, ILORIN",
     "ssoID": "1568365383",
-    "fileurl": "1568397144836.png"
+    "fileurl": "1568397144836.png",
+    "publickey": "041b8f6751bdc714c9ad5981ef4da9d88263cb85ad0a065c4274b3db4c9ef61317fbe0792af2c1211829597da0bc4df562ac01ccf9c0bedf17555c9498d16a22a2"
   },
   {
     "id": 1568398428307,
-    "status": "pending",
+    "status": "approved",
     "surname": "RAHEEM",
     "firstname": "ZAINAB",
     "middlename": "OLUWATOYIN",
@@ -225,6 +227,7 @@
     "nin": "1568397763825",
     "address": "HOUSE 17, OLO AFO, BADAGRY LAGOS",
     "ssoID": "1568365419",
-    "fileurl": "1568398428273.png"
+    "fileurl": "1568398428273.png",
+    "publickey": "04dfdb1d07c65b095056565d9d08a634ee10f1e194bd8163d89ecc409133cee90d862dac9b55a95198591ab8c3b2a7306276c6064e3f1acd903cf84cbe5efab9e1"
   }
 ]
