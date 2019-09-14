@@ -127,7 +127,7 @@
   },
   {
     "id": 1568395983219,
-    "status": "pending",
+    "status": "approved",
     "surname": "UDEH",
     "firstname": "ADA",
     "middlename": "GRACE",
@@ -136,11 +136,12 @@
     "nin": "1568395934211",
     "address": "1 BAALE STREET, ORILE IGANMU LAGOS",
     "ssoID": "1568365138",
-    "fileurl": "1568395983186.png"
+    "fileurl": "1568395983186.png",
+    "publickey": "044879a3d74e0338c86a9795330c24a8e5850724f01f47be6dbbedd432f8a1fd1ec96107b6656a2aed0b90496b06b60cbfd8b20f72ba0074c420ac8e3dbf90afc6"
   },
   {
     "id": 1568396138759,
-    "status": "pending",
+    "status": "approved",
     "surname": "SULAYMAN",
     "firstname": "HAMMED",
     "middlename": "OLAITAN",
@@ -149,7 +150,8 @@
     "nin": "1568396114329",
     "address": "3 OFFA ROAD, ILORIN",
     "ssoID": "1568365168",
-    "fileurl": "1568396138728.png"
+    "fileurl": "1568396138728.png",
+    "publickey": "041cc8be92f41345051a72aff9abe380767282ed73fbdc50e9348434fa225d290531218f1e07dfa1081830f271623413586f5a21479ec71e6fd2b202a288cde698"
   },
   {
     "id": 1568396258325,
