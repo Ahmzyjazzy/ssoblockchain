@@ -18,7 +18,7 @@ const organization = {
     cbn: { 
         privatekey: '9bce57aff836bbf41e6327356dca2f4a0840dc23f0306cfd096b965ce91bf052',
         publickey: '04658786ec3a66313a2a2aee4c1d9167c571ce63177698f92003a02537967248cfecb9e243001cc4610b84563e45f073a78b6feaf4addae71467a135e3cce7da67',
-        title: 'Central Bank of Nigeria' 
+        title: 'Banks of Nigeria' 
     },
     gtbank: { 
         privatekey: '79dbb40b5c40c14c1ac5557227af6e85abcb0662a2e12f4240c29dc7eb75f1a6',
