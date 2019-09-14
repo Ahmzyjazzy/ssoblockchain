@@ -113,7 +113,7 @@
   },
   {
     "id": 1568395850892,
-    "status": "pending",
+    "status": "approved",
     "surname": "AYINDE",
     "firstname": "NIMAT",
     "middlename": "IFEOLUWA",
@@ -122,7 +122,8 @@
     "nin": "1568395814440",
     "address": "16 ORORYINYIN, ISALE EKO, IDUMOTA LAGOS",
     "ssoID": "1568365056",
-    "fileurl": "1568395850864.png"
+    "fileurl": "1568395850864.png",
+    "publickey": "04b2622a6b07af976f3b9825783508dc785715df57f67f41e8fa65e7c35eeab28140f71c413efe0e496604eed4ff0b29ca8c87c185b2ad3cf5516c79024b129a92"
   },
   {
     "id": 1568395983219,
@@ -152,7 +153,7 @@
   },
   {
     "id": 1568396258325,
-    "status": "pending",
+    "status": "approved",
     "surname": "OYETUNDE",
     "firstname": "AFEEZ",
     "middlename": "ADISA",
@@ -161,11 +162,12 @@
     "nin": "1568396228274",
     "address": "12 ISHOLA STREET, IKOTUN, LAGOS",
     "ssoID": "1568365245",
-    "fileurl": "1568396258289.png"
+    "fileurl": "1568396258289.png",
+    "publickey": "04a14aee3cd00ab74d12d96338a248744057d8ed3d2187b7dc7fca4090c8e2903ace2c47e101570c925898bafbac632a43a5782ce7b45cfe512b0e12c9c728d5f7"
   },
   {
     "id": 1568396495802,
-    "status": "pending",
+    "status": "approved",
     "surname": "YUSUF",
     "firstname": "HASSAN",
     "middlename": "OLADIMEJI",
@@ -174,11 +176,12 @@
     "nin": "1568396460780",
     "address": "BLOCK 5, ADENIRAN OGUNSANYA ESTATE, LAGOS",
     "ssoID": "1568365275",
-    "fileurl": "1568396495766.png"
+    "fileurl": "1568396495766.png",
+    "publickey": "047c09195f1cb434e431b2b96de8072ebde0e09442caa4876e22ec871d3a332494011c6de1de0150c2b246ef498d2c17a793b4896278896e40dd354aacd22fd384"
   },
   {
     "id": 1568396925609,
-    "status": "pending",
+    "status": "approved",
     "surname": "ALAMUTU",
     "firstname": "HADIA",
     "middlename": "YETUNDE",
@@ -187,11 +190,12 @@
     "nin": "1568396871938",
     "address": "BLOCK 51, GAME VILLAGE, SURULERE LAGOS",
     "ssoID": "1568365304",
-    "fileurl": "1568396925582.png"
+    "fileurl": "1568396925582.png",
+    "publickey": "04bdb1e91762687b3d83778e39782276d15dc9952ab79cccba427aa85c2685ac2997cea5ba3ccecdaaf40b731e9642d505fb78ad725f78d46678d4ad4af25dd033"
   },
   {
     "id": 1568397056385,
-    "status": "pending",
+    "status": "approved",
     "surname": "ALAMUTU",
     "firstname": "ZAINAB",
     "middlename": "FOLASHADE",
@@ -200,7 +204,8 @@
     "nin": "1568396943135",
     "address": "BLOCK 2B, ABATON BARRACKS, SURULERE LAGOS",
     "ssoID": "1568365322",
-    "fileurl": "1568397056361.png"
+    "fileurl": "1568397056361.png",
+    "publickey": "0472305057ff60e2936d2a9b481d1efc40366ce975d63dbc50733ec5dc50321238ff6233424d32008b3b529fbac7a559e806684148167402a48c81d7939780aa1f"
   },
   {
     "id": 1568397144865,
