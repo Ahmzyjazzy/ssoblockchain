@@ -96,25 +96,27 @@
   },
   {
     "id": 1568449503843,
-    "status": "pending",
+    "status": "approved",
     "ssoID": "1568365508",
     "fullname": "ABUBAKAR LUKMAN LANRE",
     "dob": "1991-12-12",
     "gender": "male",
     "passport_no": "1568449450746",
     "address": "12 BROWN ROAD, TANKE ILORIN",
-    "fileurl": "1568449503810.png"
+    "fileurl": "1568449503810.png",
+    "publickey": "04af84aaff38540b20a6976d969272ed80da54a26f6dac25cc16524e44f59d09a0e23ad124c32a6c8801b64243d2022081b6620c0b7961dec5bfd07cca915fb561"
   },
   {
     "id": 1568449583429,
-    "status": "pending",
+    "status": "approved",
     "ssoID": "1568365546",
     "fullname": "SANUSI YUSUF AKOREDE",
     "dob": "1993-07-27",
     "gender": "male",
     "passport_no": "1568449527289",
     "address": "2B AJAGAMIBI, KETU ALAPERE LAGOS",
-    "fileurl": "1568449583404.png"
+    "fileurl": "1568449583404.png",
+    "publickey": "043d006371fa1368342ba3a1a955b6a14483a0cccd1faecf0b2445f4d8592047fcd6a015380b191522cda76c77e6edc8548041840187420445e53d434f6c0a3099"
   },
   {
     "id": 1568449708348,
@@ -129,13 +131,14 @@
   },
   {
     "id": 1568449871490,
-    "status": "pending",
+    "status": "approved",
     "ssoID": "1568365577",
     "fullname": "BRUCE EKENE BLESSING",
     "dob": "1995-05-15",
     "gender": "female",
     "passport_no": "1568449729947",
     "address": "BLOCK 2, FLAT 16 IKOTPENE, ANAMBRA",
-    "fileurl": "1568449871463.png"
+    "fileurl": "1568449871463.png",
+    "publickey": "042a5c01154df08e7c81e38d471566f97e96aaac7f96081139a31413a62b4f31cf398d281ef60cf839e4a49d93d3caa393852445ff9221a5f35863ab0bbe22db1c"
   }
 ]
