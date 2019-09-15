@@ -225,6 +225,8 @@
         const $cont = $(`#${container}`);
         const tbody = $cont.find("tbody");
         tbody.html("");
+        
+        data = data.filter(item => item.action_data != null);
 
         data.forEach((item)=>{
             const { code, duration, status, action_data } = item;
@@ -260,6 +262,8 @@
         const nimc_time = data.filter(item => item.code == "nimc").reduce(sumTimeDuration, 0);
         const frsc_time = data.filter(item => item.code == "frsc").reduce(sumTimeDuration, 0);
         const cbn_time = data.filter(item => item.code == "cbn").reduce(sumTimeDuration, 0);
+
+        $cont.find('.time-count').html((nis_time + nimc_time + frsc_time + cbn_time));        
 
         //plot chart 
         // Data for both series
