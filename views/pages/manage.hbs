@@ -161,7 +161,7 @@
         const user_info = citizens.find( c => c.id == id);
         user_info.status = "approved";
         
-        fetch('http://localhost:8900/api/create_citizen', {
+        fetch('https://ssoblockchain-api.herokuapp.com/api/create_citizen', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -191,7 +191,7 @@
         const userPublickey = user_info.publickey;
         const txnRefid = user_info.userid;
         
-        fetch('http://localhost:8900/api/save_new_fields', {
+        fetch('https://ssoblockchain-api.herokuapp.com/api/save_new_fields', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
