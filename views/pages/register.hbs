@@ -203,7 +203,7 @@
         //set images
         if(obj.fileurl) {
             $('.image_container')
-                .css('background-image', `url(http://localhost:8900/uploads/${obj.fileurl})`)
+                .css('background-image', `url(https://ssoblockchain-api.herokuapp.com/uploads/${obj.fileurl})`)
                 .addClass('has--image');
             $('.user-avatar').css('display','none');
         }else{
@@ -350,7 +350,7 @@
         if (fileUrlstring === null) return alert('You must upload a passport for identification');
 
         //1. upload image here and save new data
-        fetch(`http://localhost:8900/api/upload_passport`, {
+        fetch(`https://ssoblockchain-api.herokuapp.com/api/upload_passport`, {
           method: "POST",
           cache: "no-cache",
           headers: {
@@ -450,7 +450,7 @@
 
         console.log({ orgPublickey: org, ssoID });
 
-        fetch('http://localhost:8900/api/check_citizen', {
+        fetch('https://ssoblockchain-api.herokuapp.com/api/check_citizen', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -532,7 +532,7 @@
         
         if(fileurl) {
             $('.image_container')
-                .css('background-image', `url(http://localhost:8900/uploads/${fileurl})`)
+                .css('background-image', `url(https://ssoblockchain-api.herokuapp.com/uploads/${fileurl})`)
                 .addClass('has--image');
             $('.user-avatar').css('display','none');
         }else{
